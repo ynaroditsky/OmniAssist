@@ -5,7 +5,7 @@
 ```json
 {
     "roleName": "string",                               <!-- Reserved attribute. Required -->
-    "voiceFlag":true|false,                             <!-- Reserved attribute. Not required. Default=false -->
+    "voiceFlag":"true|false",                             <!-- Reserved attribute. Not required. Default=false -->
     "history": [                                        <!-- Reserved attribute. Not required. -->
         {
             "type": "questionResponse",
@@ -43,7 +43,7 @@
                 {
                     "attributeName": "string",          <!-- Attribute name provided by an UI request -->
                     "conditionalValue": "string",       <!-- Allow to use the attribute value as a condtion.  -->
-                    "base64Encoded": true|false,        <!-- Is the attribute value base64 encoded? -->                    
+                    "base64Encoded": "true|false",        <!-- Is the attribute value base64 encoded? -->                    
                     "prefixPrompt": "string",           <!-- Prompt before an attribute value/prompt -->
                     "prompt": "string",                 <!-- If value of prompt is not null, it will be sent to AI instead of attirbute value sent by an UI request -->
                     "postfixPrompt": "string",          <!-- Prompt after an attribute value/.prompt -->
@@ -51,14 +51,14 @@
                 {
                     "attributeName": "string",
                     "conditionalValue": "string",
-                    "base64Encoded": true|false,
+                    "base64Encoded": "true|false",
                     "prefixPrompt": "string",
                     "postfixPrompt": "string",
                 },
                 {
                     "attributeName": "string",
                     "conditionalValue": "string",
-                    "base64Encoded": true|false,
+                    "base64Encoded": "true|false",
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",
@@ -75,7 +75,7 @@
                 {
                     "attributeName": "string",
                     "conditionalValue": "string",
-                    "base64Encoded": true|false,
+                    "base64Encoded": "true|false",
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",
@@ -83,7 +83,7 @@
                 {
                     "attributeName": "string",
                     "conditionalValue": "string",
-                    "base64Encoded": true|false,
+                    "base64Encoded": "true|false",
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",

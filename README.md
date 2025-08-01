@@ -12,10 +12,7 @@
             "content": {
                 "question": "string",
                 "response": "string"
-            }
-                "question": "string",
-                "response": "string"
-            }
+            }            
         },
         {
             "type": "questionResponse",

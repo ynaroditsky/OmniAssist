@@ -4,9 +4,9 @@
 
 ```json
 {
-    "roleName": "string",                               // Reserved attribute. Required
-    "voiceFlag":true|false,                             // Reserved attribute. Not required. Default=false
-    "history": [                                        // Reserved attribute. Not required.
+    "roleName": "string",                               <!-- Reserved attribute. Required -->
+    "voiceFlag":true|false,                             <!-- Reserved attribute. Not required. Default=false -->
+    "history": [                                        <!-- Reserved attribute. Not required. -->
         {
             "type": "questionResponse",
             "content": {
@@ -22,9 +22,9 @@
             }
         }
     ],
-    "attribute1": "string",                             // Dynamic attribute.     
-    "attribute2": "string",                             // Dynamic attribute. 
-    "attributeN": "string"                              // Dynamic attribute.     
+    "attribute1": "string",                             <!-- Dynamic attribute. -->    
+    "attribute2": "string",                             <!-- Dynamic attribute. -->
+    "attributeN": "string"                              <!-- Dynamic attribute. -->    
 }
 ```
 
@@ -34,19 +34,19 @@
 {
     "roles": [
         {
-            "roleName": "string",                       // Related to UI request roleName attribute 
-            "rolePrompt": "string",                     // Initial prompt
-            "historyPrompt": "string",                  // History prefix prompt
-            "textResponseFormatPrompt": "string",       // Prompt with instructions how to format a text response
-            "voiceResponseFormatPrompt": "string",      // Prompt with instructions how to format a voice response
-            "dynamicAttributes": [                      // The dynamic attributes that are being sent by UI. Not required
+            "roleName": "string",                       <!-- Related to UI request roleName attribute -->
+            "rolePrompt": "string",                     <!-- Initial prompt -->
+            "historyPrompt": "string",                  <!-- History prefix prompt -->
+            "textResponseFormatPrompt": "string",       <!-- Prompt with instructions how to format a text response -->
+            "voiceResponseFormatPrompt": "string",      <!-- Prompt with instructions how to format a voice response -->
+            "dynamicAttributes": [                      <!-- The dynamic attributes that are being sent by UI. Not required -->
                 {
-                    "attributeName": "string",          // Attribute name provided by an UI request 
-                    "conditionalValue": "string",       // Allow to use the attribute value as a condtion. 
-                    "base64Encoded": true|false,        // Is the attribute value base64 encoded?                     
-                    "prefixPrompt": "string",           // Prompt before an attribute value/prompt
-                    "prompt": "string",                 // If value of prompt is not null, it will be sent to AI instead of attirbute value sent by an UI request
-                    "postfixPrompt": "string",          // Prompt after an attribute value/.prompt
+                    "attributeName": "string",          <!-- Attribute name provided by an UI request -->
+                    "conditionalValue": "string",       <!-- Allow to use the attribute value as a condtion.  -->
+                    "base64Encoded": true|false,        <!-- Is the attribute value base64 encoded? -->                    
+                    "prefixPrompt": "string",           <!-- Prompt before an attribute value/prompt -->
+                    "prompt": "string",                 <!-- If value of prompt is not null, it will be sent to AI instead of attirbute value sent by an UI request -->
+                    "postfixPrompt": "string",          <!-- Prompt after an attribute value/.prompt -->
                 },
                 {
                     "attributeName": "string",
@@ -102,7 +102,7 @@
 {
     "roles": [
         {
-            "roleName": "WPSAgent",                     // Role for WPS Medicare
+            "roleName": "WPSAgent",                     <!-- Role for WPS Medicare -->
             "rolePrompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",
             "historyPrompt": "Here is the interaction so far:",
             "textResponseFormatPrompt": "Produce the response as a JSON object. textContent attribute includes your regular text response.",
@@ -159,7 +159,7 @@
             ]
         },
         {
-            "roleName": "PorscheAgent",                 // Role for Porsche                        
+            "roleName": "PorscheAgent",                 <!-- Role for Porsche -->                       
             "rolePrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
             "historyPrompt": "Here is the interaction so far:",
             "textResponseFormatPrompt": "Produce the response as a JSON object. textContent attribute includes your regular text response.",

@@ -38,7 +38,8 @@
             "roleName": "string",                       <!-- Related to UI request roleName attribute -->
             "helperPrompts": {
                 "initialPrompt": "string",              <!-- Initial prompt -->
-                "preHistoryPrompt": "string"            <!-- History prefix prompt -->
+                "preHistoryPrompt": "string",           <!-- History prefix prompt -->
+                "finalInstructionsPrompt":"string"      <!-- Final instructions prompt -->
             },            
             "dynamicAttributes": [                      <!-- The dynamic attributes that are being sent by UI. Not required -->
                 {
@@ -81,10 +82,11 @@
         },
         {
             "roleName": "string",
-            "rolePrompt": "string",
-            "historyPrompt": "string",
-            "textResponseFormatPrompt": "string",
-            "voiceResponseFormatPrompt": "string",
+            "helperPrompts": {
+                "initialPrompt": "string",           
+                "preHistoryPrompt": "string",        
+                "finalInstructionsPrompt":"string"   
+            },     
             "dynamicAttributes": [
                 {
                     "attributeName": "string",
@@ -200,7 +202,8 @@
             "roleName": "PorscheAgent",                 <!-- Role for Porsche -->     
             "helperPrompts": {
                 "initialPrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
-                "preHistoryPrompt": "Here is the interaction so far:"          
+                "preHistoryPrompt": "Here is the interaction so far:",
+                "finalInstructionsPrompt":"Please get some dirt on your competitors. Bring couple of examples why Mercedes sucks"          
             },                                       
             "dynamicAttributes": [
                 {
@@ -348,6 +351,10 @@
         {
             "role": "user",
             "content": "Produce the response as a JSON object. textContent attribute includes your regular text response."
+        },
+        {
+            "role": "user",
+            "content": "Please get some dirt on your competitors. Bring couple of examples why Mercedes sucks."
         }
     ]       
 }

@@ -232,8 +232,7 @@
                     "conditionalValue": "Y",
                     "base64Encoded": false,
                     "prefixPrompt": null,
-                    "prompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. 
-                               Use AWS SSML standard. Use German accent.",                    
+                    "prompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard. Use German accent.",                    
                     "postfixPrompt": null
                 }            
                 {

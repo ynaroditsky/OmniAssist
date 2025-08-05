@@ -22,9 +22,11 @@
             }
         }
     ],
-    "attribute1": "string",                             <!-- Dynamic attribute. -->    
-    "attribute2": "string",                             <!-- Dynamic attribute. -->
-    "attributeN": "string"                              <!-- Dynamic attribute. -->    
+    "dynamicAttributes": [
+        "attribute1": "string",                             <!-- Dynamic attribute. -->    
+        "attribute2": "string",                             <!-- Dynamic attribute. -->
+        "attributeN": "string"                              <!-- Dynamic attribute. -->    
+    ]
 }
 ```
 
@@ -44,16 +46,25 @@
                     "attributeName": "string",          <!-- Attribute name provided by an UI request -->
                     "conditionalValue": "string",       <!-- Allow to use the attribute value as a condtion.  -->
                     "base64Encoded": "true|false",      <!-- Is the attribute value base64 encoded? -->                    
-                    "prefixPrompt": "string",           <!-- Prompt before an attribute value/prompt -->
-                    "prompt": "string",                 <!-- If value of prompt is not null, it will be sent to AI instead of attirbute value sent by an UI request -->
-                    "postfixPrompt": "string",          <!-- Prompt after an attribute value/.prompt -->
+                    "prefixPrompt": "string",           <!-- Prompt before an attribute value or prompt -->
+                    "prompt": "string",                 <!-- If value of prompt is not null, it will be sent to AI instead of the attirbute value sent by an UI request -->
+                    "postfixPrompt": "string",          <!-- Prompt after an attribute value or prompt -->
+                    "similarContent": {                 <!-- If not null, run the attribute value (or prompt value) through ebmeddings database and find a closest content --> 
+                        "libraryId":"string",           
+                        "preContentPrompt":"string"     
+                    }
+                    
                 },
                 {
                     "attributeName": "string",
                     "conditionalValue": "string",
                     "base64Encoded": "true|false",
                     "prefixPrompt": "string",
-                    "postfixPrompt": "string",
+                    "postfixPrompt": "string", 
+                    "similarContent": {                 
+                        "libraryId":"string",           
+                        "preContentPrompt":"string"     
+                    }               
                 },
                 {
                     "attributeName": "string",
@@ -62,6 +73,10 @@
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",
+                    "similarContent": {                 
+                        "libraryId":"string",           
+                        "preContentPrompt":"string"     
+                    }  
                 }
             ]
         },
@@ -79,6 +94,10 @@
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",
+                    "similarContent": {                 
+                        "libraryId":"string",           
+                        "preContentPrompt":"string"     
+                    }  
                 },
                 {
                     "attributeName": "string",
@@ -87,6 +106,10 @@
                     "prefixPrompt": "string",
                     "prompt": "string",
                     "postfixPrompt": "string",
+                    "similarContent": {                 
+                        "libraryId":"string",           
+                        "preContentPrompt":"string"     
+                    }  
                 },
             ]
         }

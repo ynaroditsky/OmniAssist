@@ -1,4 +1,23 @@
+# OmnyQuest
+
 ## Definitions
+
+### OmniQuest Vector Database schema 
+
+```json
+{
+    "id":"UUIDv4",                                      <!-- Required -->              
+    "vector": "[floats]",                               <!-- Vector for embeddings. Used as an index. A list of float numbers. Size depends on an embeddings model. Required -->
+    "payload": {        
+        "libraryId":"string",
+        "libraryDescription":"string",
+        "documentName":"string",
+        "contentId":"string",
+        "content":"string"
+    }             
+}
+```
+
 
 ### OmniQuest UI request 
 

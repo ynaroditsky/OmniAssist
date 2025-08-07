@@ -374,7 +374,7 @@
         },
         {
             "role": "user",
-            "content": "Can I get pink Porsche with tiger strips delivered to my Herndon mansion?"
+            "content": "Can I get pink Porsche with tiger strips delivered to my Clifton mansion?"
         },
         {
             "role": "user",

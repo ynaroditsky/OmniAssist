@@ -26,10 +26,9 @@
     "roleName": "string",                               <!-- Reserved attribute. Required -->
     "history": [                                        <!-- Reserved attribute. Not required. -->
         {
-            "type": "questionResponse",
+            "type": "previousSummary",
             "content": {
-                "question": "string",
-                "response": "string"
+                "summary": "string"               
             }            
         },
         {
@@ -284,7 +283,7 @@
 }
 ```
 
-### WPS Medicare OpenAI request after going through configuration
+### WPS Medicare OpenAI request after going through the configuration
 
 ```json
 {
@@ -327,9 +326,15 @@
     "voiceFlag": "N",
     "history": [ 
         {
+            "type": "previousSummary",
+            "content": {
+                "summary": "The customer is from old money Clifton, VA family, but he is really annoying. For the last 30 minutes he has been bragging about his car collection"                
+            }
+        },
+        {
             "type": "questionResponse",
             "content": {
-                "question": "Can I order car with a custom color?",
+                "question": "Can I order car with a custom color and gold ash tray?",
                 "response": "Sure, sir! You can do it!"
             }
         }
@@ -338,7 +343,7 @@
 }
 ```
 
-### Porsche OpenAI request after going through configuration
+### Porsche OpenAI request after going through the configuration
 
 ```json
 {
@@ -356,12 +361,16 @@
             "content": "Here is the interaction so far:"
         },
         {
+            "role": "system",
+            "content": "The customer is from old money Clifton, VA family, but he is really annoying. For the last 30 minutes he has been bragging about his car collection"
+        },
+        {
             "role": "user",
-            "content": "Can I order car with a custom color?"
+            "content": "Can I order car with a custom color and gold ash tray?"
         },
         {
             "role": "assistant",
-            "content": "Sure, sir! You can do it!"
+            "content": "Sure, sir! You can do it, sir!"
         },
         {
             "role": "user",

@@ -39,10 +39,19 @@
             }
         }
     ],
-    "dynamicAttributes": [
-        "attribute1": "string",                             <!-- Dynamic attribute. -->    
-        "attribute2": "string",                             <!-- Dynamic attribute. -->
-        "attributeN": "string"                              <!-- Dynamic attribute. -->    
+    "dynamicAttributes": [      
+        {
+            "key": "string",                         <!-- Dynamic attribute. -->  
+            "value": "string"                                               
+        },
+        {
+            "key": "string",                         <!-- Dynamic attribute. -->  
+            "value": "string"                                               
+        },
+        {
+            "key": "string",                         <!-- Dynamic attribute. -->  
+            "value": "string"                                               
+        }
     ]
 }
 ```

@@ -386,8 +386,7 @@
                 "response": "Sure, sir! You can do it!"
             }
         }
-    ],
-    
+    ]    
 }
 ```
 

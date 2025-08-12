@@ -1,10 +1,11 @@
 # OmnyQuest
 ```mermaid
 sequenceDiagram
-    Browser->>Tomcat Application Server: UI request
-    Tomcat Application Server-->>Role Configuration:
-    Role Configuration-->>AI request:
-    AI request-->>AI model:
+    Browser->>UI request: 
+    UI request->>Tomcat:
+    Tomcat->>Role Configuration:
+    Role Configuration->>AI request:
+    AI request->>AI model:
 ```
 
 ## Definitions

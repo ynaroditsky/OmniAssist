@@ -315,6 +315,7 @@ sequenceDiagram
     ]
 }
 ```
+---
 
 ### WPS Medicare UI request 
 
@@ -350,6 +351,7 @@ sequenceDiagram
     
 }
 ```
+
 
 ### WPS Medicare OpenAI request after going through the configuration
 
@@ -391,6 +393,7 @@ sequenceDiagram
     ]       
 }
 ```
+---
 
 ### Porsche UI request
 
@@ -481,6 +484,7 @@ sequenceDiagram
     ]       
 }
 ```
+---
 
 ### DOD911 UI request
 
@@ -525,3 +529,4 @@ sequenceDiagram
     ]       
 }
 ```
+---

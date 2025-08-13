@@ -152,7 +152,7 @@ sequenceDiagram
     },
     "roles": [
         {
-            "roleName": "WPSAgent",   
+            "roleName": "WPSAgent",                     // Role for WPS Medicare
             "aiModelName":"CHATGPT40",
             "helperPrompts": {
                 "initialPrompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",

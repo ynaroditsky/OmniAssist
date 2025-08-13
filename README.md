@@ -71,9 +71,26 @@ sequenceDiagram
 
 ```json
 {
+    "generalConfiguration": {
+        "dbConnectString": "string",
+        "contentFolder": "string",        
+        "aiModels":[
+            {
+                "modelName":"string",
+                "class":"string",
+                "embeddingModel":"string",
+                "embeddingEndPoint":"string",
+                "completionModel":"string",
+                "completionEndPoint":"string",
+                "authenticationToken":"string",
+                "temperature":"string"
+            }
+        ]
+    },
     "roles": [
         {
             "roleName": "string",                       // Related to UI request roleName attribute 
+            "aiModelName":"string",                     // AI model name
             "helperPrompts": {
                 "initialPrompt": "string",              // Initial prompt 
                 "preHistoryPrompt": "string",           // History prefix prompt                            
@@ -114,40 +131,6 @@ sequenceDiagram
                     "ragFlag":"true|false" 
                 }
             ]
-        },
-        {
-            "roleName": "string",
-            "helperPrompts": {
-                "initialPrompt": "string",           
-                "preHistoryPrompt": "string",        
-                "finalInstructionsPrompt":"string"   
-            },    
-            "ragAttributes": {                         
-                "libraryId":"number",
-                "preContentPrompt":"string",
-                "matchesNum":"number"      
-                
-            },   
-            "dynamicAttributes": [
-                {
-                    "key": "string",
-                    "conditionalValue": "string",
-                    "base64Encoded": "true|false",
-                    "prefixPrompt": "string",
-                    "replacementValue": "string",
-                    "postfixPrompt": "string",
-                    "ragFlag":"true|false"   
-                },
-                {
-                    "key": "string",
-                    "conditionalValue": "string",
-                    "base64Encoded": "true|false",
-                    "prefixPrompt": "string",
-                    "replacementValue": "string",
-                    "postfixPrompt": "string",
-                    "ragFlag":"true|false"   
-                }
-            ]
         }
     ]
 }
@@ -159,10 +142,37 @@ sequenceDiagram
 
 ```json
 {
+    "generalConfiguration": {
+        "dbConnectString": "jdbc:sqlserver://172.31.53.200\\MAI_DEMO;Database=OmniQuest;user=sa;password=!Pr0t3ct3d",
+        "contentFolder": "C:\\OmniQuest\\Content",       
+        "aiModels":[
+            {
+                "modelName":"CHATGPT40",
+                "class":"com.mai.aiapis.OpenAiApi",
+                "embeddingModel":"text-embedding-ada-002",
+                "embeddingEndPoint":"https: //api.openai.com/v1/embeddings",
+                "completionModel":"gpt-3.5-turbo",
+                "completionEndPoint":"https://api.openai.com/v1/chat/completions",
+                "authenticationToken":"*************",
+                "temperature":"0"
+            },
+            {
+                "modelName":"LLAMA",
+                "class":"com.mai.aiapis.LlamaAiApi",
+                "embeddingModel":"llama3.2",
+                "embeddingEndPoint":"http://localhost:11434/api/generate",
+                "completionModel":"llama3.2",
+                "completionEndPoint":"http://localhost:11434/api/generate",
+                "authenticationToken":null,
+                "temperature":"0"
+            }
+        ]
+    },
     "roles": [
         {
-            "roleName": "WPSAgent",                    
-             "helperPrompts": {
+            "roleName": "WPSAgent",   
+            "aiModelName":"CHATGPT40",
+            "helperPrompts": {
                 "initialPrompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",
                 "preHistoryPrompt": "Here is the interaction so far:"          
             },                          
@@ -226,7 +236,7 @@ sequenceDiagram
                     "conditionalValue": "Y",
                     "base64Encoded": false,
                     "prefixPrompt": null,
-                    "replacementValue": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as "EFT12345678"), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as="characters" for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags.",                    
+                    "replacementValue": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags.",                    
                     "postfixPrompt": null,
                     "ragFlag":false 
                 },
@@ -243,6 +253,7 @@ sequenceDiagram
         },
         {
             "roleName": "PorscheAgent",                 // Role for Porsche      
+            "aiModelName":"CHATGPT40",
             "helperPrompts": {
                 "initialPrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
                 "preHistoryPrompt": "Here is the interaction so far:",
@@ -298,8 +309,9 @@ sequenceDiagram
             ]
         },
         {
-            "roleName": "DOD911",                 // Role for 911 systems                                                  
-             "ragAttributes": {                   // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
+            "roleName": "DOD911",                       // Role for 911 systems    
+            "aiModelName":"CHATGPT40",                                              
+            "ragAttributes": {                          // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
                 "libraryId":18,
                 "preContentPrompt":"This is the content:",
                 "matchesNum":5   
@@ -325,7 +337,7 @@ sequenceDiagram
 
 ```json
 {
-    "roleName": "WPSClaims",
+    "roleName": "WPSClaims",    
     "dynamicAttributes": [
         {
             "key": "additionalInfo",

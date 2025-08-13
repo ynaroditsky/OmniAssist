@@ -10,7 +10,6 @@ sequenceDiagram
     AI model->>Backend App:
     Backend App->>Browser:
 ```
-
 ---
 
 ### OmniQuest Vector Database schema 
@@ -28,8 +27,6 @@ sequenceDiagram
     }             
 }
 ```
-
----
 
 ### OmniQuest UI request 
 
@@ -118,6 +115,9 @@ sequenceDiagram
     ]
 }
 ```
+
+---
+
 ## Examples
 
 

@@ -1,13 +1,14 @@
 # OmnyQuest
+
 ```mermaid
-sequenceDiagram;
-    Browser->>UI request; 
-    UI request->>Backend App;
-    Backend App->>Role Configuration;
-    Role Configuration->>AI request;
-    AI request->>AI model;
-    AI model->>Backend App;
-    Backend App->>Browser;
+sequenceDiagram
+    Browser->>UI request 
+    UI request->>Backend App
+    Backend App->>Role Configuration
+    Role Configuration->>AI request
+    AI request->>AI model
+    AI model->>Backend App
+    Backend App->>Browser
 ```
 
 ## Definitions

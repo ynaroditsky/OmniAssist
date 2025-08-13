@@ -72,16 +72,16 @@ sequenceDiagram
 ```json
 {
     "generalConfiguration": {
-        "dbConnectString": "string",
-        "contentFolder": "string",        
+        "dbConnectString": "string",                    // Database URL
+        "contentFolder": "string",                      // A content folder to store the content before parsing and adding to the vector database
         "aiModels":[
             {
-                "modelName":"string",
-                "class":"string",
-                "embeddingModel":"string",
-                "embeddingEndPoint":"string",
-                "completionModel":"string",
-                "completionEndPoint":"string",
+                "modelName":"string",                   // Model name
+                "class":"string",                       // Java class implements the model API
+                "embeddingModel":"string",              // Embedding model name    
+                "embeddingEndPoint":"string",           // Embedding end point
+                "completionModel":"string",             // Completion model name    
+                "completionEndPoint":"string",          // Completion end point
                 "authenticationToken":"string",
                 "temperature":"string"
             }
@@ -110,25 +110,7 @@ sequenceDiagram
                     "prefixPrompt": "string",           // Prompt before an attribute value or replacementValue 
                     "replacementValue": "string",       // If value of replacementValue is not null, it will be sent to AI instead of the attirbute value sent by an UI request 
                     "postfixPrompt": "string",          // Prompt after an attribute value or replacementValue 
-                    "ragFlag":"true|false"                                    
-                },
-                {
-                    "key": "string",
-                    "conditionalValue": "string",
-                    "base64Encoded": "true|false",
-                    "prefixPrompt": "string",
-                    "replacementValue": "string",
-                    "postfixPrompt": "string", 
-                    "ragFlag":"true|false"             
-                },
-                {
-                    "key": "string",
-                    "conditionalValue": "string",
-                    "base64Encoded": "true|false",
-                    "prefixPrompt": "string",
-                    "replacementValue": "string",
-                    "postfixPrompt": "string",
-                    "ragFlag":"true|false" 
+                    "ragFlag":"true|false"              // If true add the value or replacmentValue in RAG search                      
                 }
             ]
         }

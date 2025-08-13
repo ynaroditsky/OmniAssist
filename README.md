@@ -87,16 +87,16 @@ sequenceDiagram
             },                        
             "dynamicAttributes": [                      // The dynamic attributes that are being sent by UI. Not required 
                 {
-                    "attributeName": "string",          // Attribute name provided by an UI request 
-                    "conditionalValue": "string",       // Allow to use the attribute value as a condtion.  
+                    "key": "string",                    // Attribute key provided by an UI request 
+                    "conditionalValue": "string",       // Allow to use the attribute value as a condtion. The replacementValue will be sent to AI
                     "base64Encoded": "true|false",      // Is the attribute value base64 encoded?                     
-                    "prefixPrompt": "string",           // Prompt before an attribute value or prompt 
+                    "prefixPrompt": "string",           // Prompt before an attribute value or replacementValue 
                     "replacementValue": "string",       // If value of replacementValue is not null, it will be sent to AI instead of the attirbute value sent by an UI request 
-                    "postfixPrompt": "string",          // Prompt after an attribute value or prompt 
+                    "postfixPrompt": "string",          // Prompt after an attribute value or replacementValue 
                     "ragFlag":"true|false"                                    
                 },
                 {
-                    "attributeName": "string",
+                    "key": "string",
                     "conditionalValue": "string",
                     "base64Encoded": "true|false",
                     "prefixPrompt": "string",
@@ -105,7 +105,7 @@ sequenceDiagram
                     "ragFlag":"true|false"             
                 },
                 {
-                    "attributeName": "string",
+                    "key": "string",
                     "conditionalValue": "string",
                     "base64Encoded": "true|false",
                     "prefixPrompt": "string",
@@ -130,7 +130,7 @@ sequenceDiagram
             },   
             "dynamicAttributes": [
                 {
-                    "attributeName": "string",
+                    "key": "string",
                     "conditionalValue": "string",
                     "base64Encoded": "true|false",
                     "prefixPrompt": "string",
@@ -139,7 +139,7 @@ sequenceDiagram
                     "ragFlag":"true|false"   
                 },
                 {
-                    "attributeName": "string",
+                    "key": "string",
                     "conditionalValue": "string",
                     "base64Encoded": "true|false",
                     "prefixPrompt": "string",
@@ -168,7 +168,7 @@ sequenceDiagram
             },                          
             "dynamicAttributes": [
                 {
-                    "attributeName": "claimData",
+                    "key": "claimData",
                     "conditionalValue": null,
                     "base64Encoded": true,
                     "prefixPrompt": "Here are the details of Medicare Claim Status:",
@@ -177,7 +177,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "referenceInfo",
+                    "key": "referenceInfo",
                     "conditionalValue": null,
                     "base64Encoded": true,
                     "prefixPrompt": "Here are the additional reference information of the Medicare Claim data mentioned above:",
@@ -186,7 +186,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "additionalInfo",
+                    "key": "additionalInfo",
                     "conditionalValue": null,
                     "base64Encoded": true,
                     "prefixPrompt": null,
@@ -195,7 +195,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "sequence",
+                    "key": "sequence",
                     "conditionalValue": "I",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -204,7 +204,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "sequence",
+                    "key": "sequence",
                     "conditionalValue": "S",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -213,7 +213,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },                
                 {
-                    "attributeName": "voiceFlag",
+                    "key": "voiceFlag",
                     "conditionalValue": "N",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -222,7 +222,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "voiceFlag",
+                    "key": "voiceFlag",
                     "conditionalValue": "Y",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -231,7 +231,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "question",
+                    "key": "question",
                     "conditionalValue": null,
                     "base64Encoded": false,
                     "prefixPrompt": "This is customer's question:",
@@ -250,7 +250,7 @@ sequenceDiagram
             },                                       
             "dynamicAttributes": [
                 {
-                    "attributeName": "potentialBuyer",
+                    "key": "potentialBuyer",
                     "conditionalValue": "Y",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -259,7 +259,7 @@ sequenceDiagram
                     "ragFlag":false  
                 },
                 {
-                    "attributeName": "potentialBuyer",
+                    "key": "potentialBuyer",
                     "conditionalValue": "N",
                     "base64Encoded": false,                    
                     "prefixPrompt": null,
@@ -268,7 +268,7 @@ sequenceDiagram
                     "ragFlag":false  
                 },                
                 {
-                    "attributeName": "voiceFlag",
+                    "key": "voiceFlag",
                     "conditionalValue": "N",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -277,7 +277,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },                
                 {
-                    "attributeName": "voiceFlag",
+                    "key": "voiceFlag",
                     "conditionalValue": "Y",
                     "base64Encoded": false,
                     "prefixPrompt": null,
@@ -286,7 +286,7 @@ sequenceDiagram
                     "ragFlag":false 
                 },
                 {
-                    "attributeName": "question",
+                    "key": "question",
                     "conditionalValue": null,
                     "base64Encoded": false,                    
                     "prefixPrompt": "This is our dear customer's question:",
@@ -307,15 +307,14 @@ sequenceDiagram
             },   
             "dynamicAttributes": [                
                 {
-                    "attributeName": "question",
+                    "key": "question",
                     "conditionalValue": null,
                     "base64Encoded": false,                    
                     "prefixPrompt": null,
                     "replacementValue": null,
                     "postfixPrompt": null,
                     "ragFlag":true 
-                }         
-                
+                }                         
             ]
         }
     ]

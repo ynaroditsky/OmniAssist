@@ -11,7 +11,7 @@ sequenceDiagram
     Backend App->>Browser:
 ```
 
-## Definitions
+---
 
 ### OmniQuest Vector Database schema 
 
@@ -29,6 +29,7 @@ sequenceDiagram
 }
 ```
 
+---
 
 ### OmniQuest UI request 
 

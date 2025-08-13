@@ -1,13 +1,13 @@
 # OmnyQuest
 ```mermaid
-sequenceDiagram
-    Browser->>UI request: 
-    UI request->>Backend App:
-    Backend App->>Role Configuration:
-    Role Configuration->>AI request:
-    AI request->>AI model:
-    AI model->>Backend App:
-    Backend App->>Browser:
+sequenceDiagram;
+    Browser->>UI request; 
+    UI request->>Backend App;
+    Backend App->>Role Configuration;
+    Role Configuration->>AI request;
+    AI request->>AI model;
+    AI model->>Backend App;
+    Backend App->>Browser;
 ```
 
 ## Definitions
@@ -16,8 +16,8 @@ sequenceDiagram
 
 ```json
 {
-    "id":"UUIDv4",                                      <!-- Required -->              
-    "vector": "[floats]",                               <!-- Vector for embeddings. Used as an index. A list of float numbers. Size depends on an embeddings model. Required -->
+    "id":"UUIDv4",                                      // Required             
+    "vector": "[floats]",                               // Vector for embeddings. Used as an index. A list of float numbers. Size depends on an embeddings model. Required 
     "payload": {        
         "libraryId":"string",
         "libraryDescription":"string",
@@ -33,8 +33,8 @@ sequenceDiagram
 
 ```json
 {
-    "roleName": "string",                               <!-- Reserved attribute. Required -->
-    "history": [                                        <!-- Reserved attribute. Not required. -->
+    "roleName": "string",                               // Reserved attribute. Required 
+    "history": [                                        // Reserved attribute. Not required. 
         {
             "type": "previousSummary",
             "content": {
@@ -51,15 +51,15 @@ sequenceDiagram
     ],
     "dynamicAttributes": [      
         {
-            "key": "string",                         <!-- Dynamic attribute. -->  
+            "key": "string",                         // Dynamic attribute.   
             "value": "string"                                               
         },
         {
-            "key": "string",                         <!-- Dynamic attribute. -->  
+            "key": "string",                         // Dynamic attribute.   
             "value": "string"                                               
         },
         {
-            "key": "string",                         <!-- Dynamic attribute. -->  
+            "key": "string",                         // Dynamic attribute.   
             "value": "string"                                               
         }
     ]
@@ -72,26 +72,26 @@ sequenceDiagram
 {
     "roles": [
         {
-            "roleName": "string",                       <!-- Related to UI request roleName attribute -->
+            "roleName": "string",                       // Related to UI request roleName attribute 
             "helperPrompts": {
-                "initialPrompt": "string",              <!-- Initial prompt -->
-                "preHistoryPrompt": "string",           <!-- History prefix prompt -->                           
-                "finalInstructionsPrompt":"string"      <!-- Final instructions prompt -->
+                "initialPrompt": "string",              // Initial prompt 
+                "preHistoryPrompt": "string",           // History prefix prompt                            
+                "finalInstructionsPrompt":"string"      // Final instructions prompt 
             },            
-            "ragAttributes": {                          <!-- If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
+            "ragAttributes": {                          // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
                 "libraryId":"number",
                 "preContentPrompt":"string",
                 "matchesNum":"number"   
                 
             },                        
-            "dynamicAttributes": [                      <!-- The dynamic attributes that are being sent by UI. Not required -->
+            "dynamicAttributes": [                      // The dynamic attributes that are being sent by UI. Not required 
                 {
-                    "attributeName": "string",          <!-- Attribute name provided by an UI request -->
-                    "conditionalValue": "string",       <!-- Allow to use the attribute value as a condtion.  -->
-                    "base64Encoded": "true|false",      <!-- Is the attribute value base64 encoded? -->                    
-                    "prefixPrompt": "string",           <!-- Prompt before an attribute value or prompt -->
-                    "replacementValue": "string",       <!-- If value of replacementValue is not null, it will be sent to AI instead of the attirbute value sent by an UI request -->
-                    "postfixPrompt": "string",          <!-- Prompt after an attribute value or prompt -->
+                    "attributeName": "string",          // Attribute name provided by an UI request 
+                    "conditionalValue": "string",       // Allow to use the attribute value as a condtion.  
+                    "base64Encoded": "true|false",      // Is the attribute value base64 encoded?                     
+                    "prefixPrompt": "string",           // Prompt before an attribute value or prompt 
+                    "replacementValue": "string",       // If value of replacementValue is not null, it will be sent to AI instead of the attirbute value sent by an UI request 
+                    "postfixPrompt": "string",          // Prompt after an attribute value or prompt 
                     "ragFlag":"true|false"                                    
                 },
                 {
@@ -241,7 +241,7 @@ sequenceDiagram
             ]
         },
         {
-            "roleName": "PorscheAgent",                 <!-- Role for Porsche -->     
+            "roleName": "PorscheAgent",                 // Role for Porsche      
             "helperPrompts": {
                 "initialPrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
                 "preHistoryPrompt": "Here is the interaction so far:",
@@ -297,8 +297,8 @@ sequenceDiagram
             ]
         },
         {
-            "roleName": "DOD911",                 <!-- Role for 911 systems -->                                                 
-             "ragAttributes": {                   <!-- If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
+            "roleName": "DOD911",                 // Role for 911 systems                                                  
+             "ragAttributes": {                   // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
                 "libraryId":18,
                 "preContentPrompt":"This is the content:",
                 "matchesNum":5   

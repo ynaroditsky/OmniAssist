@@ -1,4 +1,4 @@
-# OmnyQuest
+# OmniQuest
 
 ```mermaid
 sequenceDiagram

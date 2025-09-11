@@ -1,4 +1,4 @@
-# OmniQuest
+# Omni Assist
 
 ```mermaid
 sequenceDiagram
@@ -12,7 +12,7 @@ sequenceDiagram
 ```
 ---
 
-### OmniQuest Vector Database schema 
+### Omni Assist Vector Database schema 
 
 ```json
 {
@@ -28,7 +28,7 @@ sequenceDiagram
 }
 ```
 
-### OmniQuest UI request 
+### Omni Assist UI request 
 
 ```json
 {
@@ -65,7 +65,7 @@ sequenceDiagram
 }
 ```
 
-### OmniQuest Configuration file 
+### Omni Assist Configuration file 
 
 ```json
 {
@@ -126,8 +126,8 @@ sequenceDiagram
 ```json
 {
     "generalConfiguration": {
-        "dbConnectString": "jdbc:sqlserver://172.31.53.200\\MAI_DEMO;Database=OmniQuest;user=sa;password=!Pr0t3ct3d",
-        "contentFolder": "C:\\OmniQuest\\Content",       
+        "dbConnectString": "jdbc:sqlserver://172.31.53.200\\MAI_DEMO;Database=Omni Assist;user=sa;password=!Pr0t3ct3d",
+        "contentFolder": "C:\\Omni Assist\\Content",       
         "aiModels":[
             {
                 "modelName":"CHATGPT40",

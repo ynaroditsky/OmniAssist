@@ -1,3 +1,6 @@
+<div style="max-width: 1200px; margin: 0 auto;">
+    Your content here
+
 # OmniAssist
 
 ```mermaid
@@ -526,3 +529,4 @@ sequenceDiagram
 }
 ```
 ---
+</div>

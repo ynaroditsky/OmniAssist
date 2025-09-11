@@ -1,4 +1,4 @@
-# Omni Assist
+# OmniAssist
 
 ```mermaid
 sequenceDiagram
@@ -12,7 +12,7 @@ sequenceDiagram
 ```
 ---
 
-### Omni Assist Vector Database schema 
+### OmniAssist Vector Database schema 
 
 ```json
 {
@@ -28,11 +28,11 @@ sequenceDiagram
 }
 ```
 
-### Omni Assist UI request 
+### OmniAssist UI request 
 
 ```json
 {
-    "roleName": "string",                               // Reserved attribute. Required 
+    "templateName": "string",                               // Reserved attribute. Required 
     "history": [                                        // Reserved attribute. Not required. 
         {
             "type": "previousSummary",
@@ -65,7 +65,7 @@ sequenceDiagram
 }
 ```
 
-### Omni Assist Configuration file 
+### OmniAssist Configuration file 
 
 ```json
 {
@@ -87,7 +87,7 @@ sequenceDiagram
     },
     "roles": [
         {
-            "roleName": "string",                       // Related to UI request roleName attribute 
+            "templateName": "string",                       // Related to UI request templateName attribute 
             "aiModelName":"string",                     // AI model name
             "helperPrompts": {
                 "initialPrompt": "string",              // Initial prompt 
@@ -126,8 +126,8 @@ sequenceDiagram
 ```json
 {
     "generalConfiguration": {
-        "dbConnectString": "jdbc:sqlserver://172.31.53.200\\MAI_DEMO;Database=Omni Assist;user=sa;password=!Pr0t3ct3d",
-        "contentFolder": "C:\\Omni Assist\\Content",       
+        "dbConnectString": "jdbc:sqlserver://172.31.53.200\\MAI_DEMO;Database=OmniAssist;user=sa;password=!Pr0t3ct3d",
+        "contentFolder": "C:\\OmniAssist\\Content",       
         "aiModels":[
             {
                 "modelName":"CHATGPT40",
@@ -153,7 +153,7 @@ sequenceDiagram
     },
     "roles": [
         {
-            "roleName": "WPSAgent",                     // Role for WPS Medicare
+            "templateName": "WPSAgent",                     // Role for WPS Medicare
             "aiModelName":"CHATGPT40",
             "helperPrompts": {
                 "initialPrompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",
@@ -235,7 +235,7 @@ sequenceDiagram
             ]
         },
         {
-            "roleName": "PorscheAgent",                 // Role for Porsche      
+            "templateName": "PorscheAgent",                 // Role for Porsche      
             "aiModelName":"CHATGPT40",
             "helperPrompts": {
                 "initialPrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
@@ -292,7 +292,7 @@ sequenceDiagram
             ]
         },
         {
-            "roleName": "DOD911",                       // Role for 911 systems    
+            "templateName": "DOD911",                       // Role for 911 systems    
             "aiModelName":"CHATGPT40",                                              
             "ragAttributes": {                          // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
                 "libraryId":18,
@@ -321,7 +321,7 @@ sequenceDiagram
 
 ```json
 {
-    "roleName": "WPSClaims",    
+    "templateName": "WPSClaims",    
     "dynamicAttributes": [
         {
             "key": "additionalInfo",
@@ -399,7 +399,7 @@ sequenceDiagram
 
 ```json
 {
-    "roleName": "PorscheAgent",        
+    "templateName": "PorscheAgent",        
     "history": [ 
         {
             "type": "previousSummary",
@@ -463,10 +463,6 @@ sequenceDiagram
         },
         {
             "role": "user",
-            "content": "This is customer's question:"
-        },
-        {
-            "role": "user",
             "content": "Produce the response as a JSON object. textContent attribute includes your regular text response."
         },
          {
@@ -490,7 +486,7 @@ sequenceDiagram
 
 ```json
 {
-    "roleName": "DOD911",       
+    "templateName": "DOD911",       
     "history": [
         {
             "type": "questionResponse",

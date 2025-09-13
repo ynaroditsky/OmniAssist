@@ -197,7 +197,7 @@ sequenceDiagram
         {                                                   
             "base64Encoded": true,                 
             "prompt": "Here are the details of Medicare Claim Status: {{claimData}}.\nHere are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}\nAdditional info:{{additionalInfo}}",                 
-        }
+        },
         {
             "conditions": [
                 {

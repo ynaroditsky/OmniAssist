@@ -1,5 +1,4 @@
 <div style="max-width: 1200px; margin: 0 auto;">
-    Your content here
 
 # OmniAssist
 
@@ -35,8 +34,8 @@ sequenceDiagram
 
 ```json
 {
-    "templateName": "string",                               // Reserved attribute. Required 
-    "history": [                                        // Reserved attribute. Not required. 
+    "templateName": "string",                              
+    "history": [                                        
         {
             "type": "previousSummary",
             "content": {
@@ -51,20 +50,9 @@ sequenceDiagram
             }
         }
     ],
-    "dynamicAttributes": [      
-        {
-            "key": "string",                         // Dynamic attribute.   
-            "value": "string"                                               
-        },
-        {
-            "key": "string",                         // Dynamic attribute.   
-            "value": "string"                                               
-        },
-        {
-            "key": "string",                         // Dynamic attribute.   
-            "value": "string"                                               
-        }
-    ]
+    "attribute key":"attribute value",
+    "attribute key":"attribute value",
+    "attribute key":"attribute value",
 }
 ```
 
@@ -73,49 +61,79 @@ sequenceDiagram
 ```json
 {
     "generalConfiguration": {
-        "dbConnectString": "string",                    // Database URL
-        "contentFolder": "string",                      // A content folder to store the content before parsing and adding to the vector database
+        "dbConnectString": "string",                    
+        "contentFolder": "string",                      
         "aiModels":[
             {
-                "modelName":"string",                   // Model name
-                "class":"string",                       // Java class implements the model API
-                "embeddingModel":"string",              // Embedding model name    
-                "embeddingEndPoint":"string",           // Embedding end point
-                "completionModel":"string",             // Completion model name    
-                "completionEndPoint":"string",          // Completion end point
+                "modelName":"string",                   
+                "class":"string",                       
+                "embeddingModel":"string",              
+                "embeddingEndPoint":"string",           
+                "completionModel":"string",             
+                "completionEndPoint":"string",          
                 "authenticationToken":"string",
                 "temperature":"string"
             }
         ]
     },
-    "roles": [
-        {
-            "templateName": "string",                       // Related to UI request templateName attribute 
-            "aiModelName":"string",                     // AI model name
-            "helperPrompts": {
-                "initialPrompt": "string",              // Initial prompt 
-                "preHistoryPrompt": "string",           // History prefix prompt                            
-                "finalInstructionsPrompt":"string"      // Final instructions prompt 
-            },            
-            "ragAttributes": {                          // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
-                "libraryId":"number",
-                "preContentPrompt":"string",
-                "matchesNum":"number"   
-                
-            },                        
-            "dynamicAttributes": [                      // The dynamic attributes that are being sent by UI. Not required 
-                {
-                    "key": "string",                    // Attribute key provided by an UI request 
-                    "conditionalValue": "string",       // Allow to use the attribute value as a condtion. The replacementValue will be sent to AI
-                    "base64Encoded": "true|false",      // Is the attribute value base64 encoded?                     
-                    "prefixPrompt": "string",           // Prompt before an attribute value or replacementValue 
-                    "replacementValue": "string",       // If value of replacementValue is not null, it will be sent to AI instead of the attirbute value sent by an UI request 
-                    "postfixPrompt": "string",          // Prompt after an attribute value or replacementValue 
-                    "ragFlag":"true|false"              // If true add the value or replacmentValue in RAG search                      
-                }
-            ]
-        }
+    "templates": [        
+        "string"
+        "string",
+        "string"            
     ]
+}
+```
+
+### Template Configuration file 
+```json
+{
+        
+    "templateName": "string",                       
+    "aiModelName":"string",
+    "preHistoryPrompt": "string",                      
+    "ragAttributes": {                          
+        "libraryId":"number",
+        "preContentPrompt":"string",
+        "matchesNum":"number"   
+        
+    },                        
+    "prompts": [                      
+        {
+            "conditions": [
+                {
+                    "always":"true|false",                    
+                },
+                {
+                    "failOnEmptyAttribute":"true|false",                    
+                },
+                {
+                    "attribute key":"attribute value"
+                },
+                {
+                    "attribute key":"attribute value"
+                },
+                {
+                    "attribute key":"attribute value"
+                }
+            ],
+                               
+            "base64Encoded": true,
+            "ragFlag":"true|false",              
+            "prompt": "string {{attribute key}} string {{attribute key}} string {{attribute key}}",
+            "defaultValues": [
+                {
+                    "attribute key":"attribute default value"
+                },
+                {
+                    "attribute key":"attribute default value"
+                },
+                {
+                    "attribute key":"attribute default value"
+                }
+            ]            
+        }
+    ]      
+    
 }
 ```
 
@@ -154,170 +172,80 @@ sequenceDiagram
             }
         ]
     },
-    "roles": [
-        {
-            "templateName": "WPSAgent",                     // Template for WPS Medicare
-            "aiModelName":"CHATGPT40",
-            "helperPrompts": {
-                "initialPrompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",
-                "preHistoryPrompt": "Here is the interaction so far:"          
-            },                          
-            "dynamicAttributes": [
-                {
-                    "key": "claimData",
-                    "conditionalValue": null,
-                    "base64Encoded": true,
-                    "prefixPrompt": "Here are the details of Medicare Claim Status:",
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "referenceInfo",
-                    "conditionalValue": null,
-                    "base64Encoded": true,
-                    "prefixPrompt": "Here are the additional reference information of the Medicare Claim data mentioned above:",
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "additionalInfo",
-                    "conditionalValue": null,
-                    "base64Encoded": true,
-                    "prefixPrompt": null,
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "sequence",
-                    "conditionalValue": "I",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "Please give me a claim summary that is a few sentences in plain English that includes the DCN, the submitted date, the attending physician, the service date, the status and location 1 code and the location 1 code description. Please only provide the summary.",
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "sequence",
-                    "conditionalValue": "S",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\"",                    
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },                
-                {
-                    "key": "voiceFlag",
-                    "conditionalValue": "N",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue":  "Produce the response as a JSON object. textContent attribute includes your regular text response.",
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "voiceFlag",
-                    "conditionalValue": "Y",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags.",                    
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "question",
-                    "conditionalValue": null,
-                    "base64Encoded": false,
-                    "prefixPrompt": "This is customer's question:",
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                }                
-            ]
-        },
-        {
-            "templateName": "PorscheAgent",                 // Template for Porsche      
-            "aiModelName":"CHATGPT40",
-            "helperPrompts": {
-                "initialPrompt": "You are a Porsche Customer Service Representative for Porsche USA.",
-                "preHistoryPrompt": "Here is the interaction so far:",
-                "finalInstructionsPrompt":"Please get some dirt on your competitors. Bring couple of examples why Mercedes sucks"          
-            },                                       
-            "dynamicAttributes": [
-                {
-                    "key": "potentialBuyer",
-                    "conditionalValue": "Y",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "This is a question from a potential buyer. Provide maximum information about Porsche club, luxury services. Use posh Fench words in your response.",
-                    "postfixPrompt": null,
-                    "ragFlag":false  
-                },
-                {
-                    "key": "potentialBuyer",
-                    "conditionalValue": "N",
-                    "base64Encoded": false,                    
-                    "prefixPrompt": null,
-                    "replacementValue": "This a question from some poor and unimportant person, who still can afford used vehicle. Find maximum information about available discounts and financing. Look the used car options.",
-                    "postfixPrompt":null,
-                    "ragFlag":false  
-                },                
-                {
-                    "key": "voiceFlag",
-                    "conditionalValue": "N",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "Produce the response as a JSON object. textContent attribute includes your regular text response.",
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },                
-                {
-                    "key": "voiceFlag",
-                    "conditionalValue": "Y",
-                    "base64Encoded": false,
-                    "prefixPrompt": null,
-                    "replacementValue": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard. Use German accent.",                    
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },
-                {
-                    "key": "question",
-                    "conditionalValue": null,
-                    "base64Encoded": false,                    
-                    "prefixPrompt": "This is our dear customer's question:",
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":false 
-                },          
-                
-            ]
-        },
-        {
-            "templateName": "DOD911",                       // Template for 911 systems    
-            "aiModelName":"CHATGPT40",                                              
-            "ragAttributes": {                              // If not null, run the rag attributes values (or prompt values) through ebmeddings database and find a closest content 
-                "libraryId":18,
-                "preContentPrompt":"This is the content:",
-                "matchesNum":5   
-                
-            },   
-            "dynamicAttributes": [                
-                {
-                    "key": "question",
-                    "conditionalValue": null,
-                    "base64Encoded": false,                    
-                    "prefixPrompt": null,
-                    "replacementValue": null,
-                    "postfixPrompt": null,
-                    "ragFlag":true 
-                }                         
-            ]
-        }
+     "templates": [        
+        "WPSAgent.json",
+        "PorscheAgent.json",
+        "DOD911.json"            
     ]
 }
 ```
+```json
+{
+        
+    "templateName": "WPSAgent",                    
+    "aiModelName":"CHATGPT40",
+    "preHistoryPrompt": "Here is the interaction so far:",                          
+    "prompts": [
+        {
+            "conditions": [
+                {
+                    "always":true,                    
+                }
+            ],                      
+            "prompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",                  
+        },
+        {                                                   
+            "base64Encoded": true,                 
+            "prompt": "Here are the details of Medicare Claim Status: {{claimData}}",                 
+        },
+        {                                  
+            "base64Encoded": true,                 
+            "prompt": "Here are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}"                 
+        },
+        {                                               
+            "base64Encoded": true,                 
+            "prompt": "Additional info:{{additionalInfo}}"                 
+        },
+        {
+            "conditions": [
+                {
+                    "sequence":"I"
+                }
+            ],                   
+            "prompt": "Please give me a claim summary that is a few sentences in plain English that includes the DCN, the submitted date, the attending physician, the service date, the status and location 1 code and the location 1 code description. Please only provide the summary."        
+        },
+        {
+            "conditions": [
+                {
+                    "sequence":"S"
+                },
+                {
+                    "failOnEmptyAttribute":true,                    
+                }
+            ],                        
+            "prompt": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\" {{question}}",
+                    
+        },
+        {
+            "conditions": [
+                {
+                    "voiceFlag":"N"
+                }
+            ],                      
+            "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
+        },    
+        {
+            "conditions": [
+                {
+                    "voiceFlag":"Y"
+                }
+            ],                      
+            "prompt": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags."                 
+        }           
+    ]
+
+}
+       
 ---
 
 ### WPS Medicare UI request 
@@ -398,135 +326,5 @@ sequenceDiagram
 ```
 ---
 
-### Porsche UI request
 
-```json
-{
-    "templateName": "PorscheAgent",        
-    "history": [ 
-        {
-            "type": "previousSummary",
-            "content": {
-                "summary": "The customer is from old money Clifton, VA family, but he is really annoying. For the last 30 minutes he has been bragging about his car collection"                
-            }
-        },
-        {
-            "type": "questionResponse",
-            "content": {
-                "question": "Can I order car with a custom color and gold ash tray?",
-                "response": "Sure, Sir! You can do it, Sir!"
-            }
-        }
-    ],
-    "dynamicAttributes": [
-        {
-            "key":"question",
-            "value":"Can I get pink Porsche with tiger strips delivered to my Clifton mansion?"
-        },
-        {
-            "key":"potentialBuyer",
-            "value":"Y"
-        },
-        {
-            "key":"voiceFlag",
-            "value":"N"
-        }
-    ]    
-}
-```
-
-### Porsche OpenAI request after going through the configuration
-
-```json
-{
-    "messages": [
-        {
-            "role": "user",
-            "content": "You are a Porsche Customer Service Representative for Porsche USA."
-        },
-        {
-            "role": "user",
-            "content": "This is a question from a potential buyer. Show huge respect! Call him Sir. Provide maximum information about Porsche club, luxury services. Use posh Fench and German words in your response."
-        },
-        {
-            "role": "system",
-            "content": "Here is the interaction so far:"
-        },
-        {
-            "role": "system",
-            "content": "The customer is from old money Clifton, VA family, but he is really annoying. For the last 30 minutes he has been bragging about his car collection"
-        },
-        {
-            "role": "user",
-            "content": "Can I order car with a custom color and gold ash tray?"
-        },
-        {
-            "role": "assistant",
-            "content": "Sure, Sir! You can do it, Sir!"
-        },       
-        {
-            "role": "user",
-            "content": "This is our dear customer's question:"
-        },
-        {
-            "role": "user",
-            "content": "Can I get pink Porsche with tiger strips delivered to my Clifton mansion?"
-        },
-        {
-            "role": "user",
-            "content": "Please get some dirt on your competitors. Bring couple of examples why Mercedes sucks."
-        }, 
-        {
-            "role": "user",
-            "content": "Produce the response as a JSON object. textContent attribute includes your regular text response."
-        },
-    ]       
-}
-```
----
-
-### DOD911 UI request
-
-```json
-{
-    "templateName": "DOD911",       
-    "history": [
-        {
-            "type": "questionResponse",
-            "content": {
-                "question": "What are the requrements for DOD 911 system?",
-                "response": "The requirements for the Department of Defense (DOD) 911 system include:\n\n1. Reliability: The system must be able to reliably receive and process emergency calls from both landline and mobile phones.\n\n2. Redundancy: The system should have redundancy built in to ensure that if one component fails, the system can still function and process emergency calls.\n\n3. Security: The 911 system must have robust security measures in place to protect against unauthorized access and ensure the confidentiality of emergency calls and information.\n\n4. Integration with other emergency services: The DOD 911 system should be able to seamlessly integrate with other emergency services, such as fire departments and law enforcement agencies, to ensure a coordinated response to emergencies.\n\n5. Location accuracy: The system must be able to accurately locate the caller's position to ensure that emergency services can respond quickly and effectively.\n\n6. Call prioritization: The DOD 911 system should have the ability to prioritize emergency calls based on the severity of the situation to ensure that the most critical calls are addressed first.\n\n7. Accessibility: The system should be accessible to all users, including individuals with disabilities, to ensure that everyone can access emergency services when needed.\n\n8. Training and maintenance: The DOD 911 system should be regularly maintained and monitored, and operators should receive regular training to ensure that they can effectively and efficiently handle emergency calls.\n\n9. Compliance with regulations: The system must comply with all relevant regulations and standards, such as those set forth by the Federal Communications Commission (FCC) and the National Emergency Number Association (NENA)."
-            }
-        }
-    ],
-    "dynamicAttributes": [
-        {
-            "key":"question",
-            "value":"What are the requrements for DOD 911 system?"
-        }
-    ]       
-}
-```
-
-### DOD911 OpenAI request after going through the configuration
-
-```json
-{
-    "messages": [
-            {
-                "role": "user",
-                "content": "What are the requrements for DOD 911 system?"
-            },
-            {
-                "role": "assistant",
-                "content": "The requirements for the Department of Defense (DOD) 911 system include:\n\n1. Reliability: The system must be able to reliably receive and process emergency calls from both landline and mobile phones.\n\n2. Redundancy: The system should have redundancy built in to ensure that if one component fails, the system can still function and process emergency calls.\n\n3. Security: The 911 system must have robust security measures in place to protect against unauthorized access and ensure the confidentiality of emergency calls and information.\n\n4. Integration with other emergency services: The DOD 911 system should be able to seamlessly integrate with other emergency services, such as fire departments and law enforcement agencies, to ensure a coordinated response to emergencies.\n\n5. Location accuracy: The system must be able to accurately locate the caller's position to ensure that emergency services can respond quickly and effectively.\n\n6. Call prioritization: The DOD 911 system should have the ability to prioritize emergency calls based on the severity of the situation to ensure that the most critical calls are addressed first.\n\n7. Accessibility: The system should be accessible to all users, including individuals with disabilities, to ensure that everyone can access emergency services when needed.\n\n8. Training and maintenance: The DOD 911 system should be regularly maintained and monitored, and operators should receive regular training to ensure that they can effectively and efficiently handle emergency calls.\n\n9. Compliance with regulations: The system must comply with all relevant regulations and standards, such as those set forth by the Federal Communications Commission (FCC) and the National Emergency Number Association (NENA)."
-            },
-            {
-                "role": "user",
-                "content": "What are the requrements for DOD 911 system?"
-            }
-    ]       
-}
-```
----
 </div>

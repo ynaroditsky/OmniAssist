@@ -196,16 +196,8 @@ sequenceDiagram
         },
         {                                                   
             "base64Encoded": true,                 
-            "prompt": "Here are the details of Medicare Claim Status: {{claimData}}",                 
-        },
-        {                                  
-            "base64Encoded": true,                 
-            "prompt": "Here are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}"                 
-        },
-        {                                               
-            "base64Encoded": true,                 
-            "prompt": "Additional info:{{additionalInfo}}"                 
-        },
+            "prompt": "Here are the details of Medicare Claim Status: {{claimData}}.\nHere are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}\nAdditional info:{{additionalInfo}}",                 
+        }
         {
             "conditions": [
                 {
@@ -220,7 +212,7 @@ sequenceDiagram
                     "sequence":"S"
                 },
                 {
-                    "failOnEmptyAttribute":true,                    
+                    "failOnEmptyAttribute":true                    
                 }
             ],                        
             "prompt": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\" {{question}}",

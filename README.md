@@ -18,8 +18,8 @@ sequenceDiagram
 
 ```json
 {
-    "id":"UUIDv4",                                      // Required             
-    "vector": "[floats]",                               // Vector for embeddings. Used as an index. A list of float numbers. Size depends on an embeddings model. Required 
+    "id":"UUIDv4",                                               
+    "vector": "[floats]",                               
     "payload": {        
         "libraryId":"string",
         "libraryDescription":"string",

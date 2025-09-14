@@ -104,7 +104,11 @@ sequenceDiagram
         "preContentPrompt":"string",
         "matchesNum":"number"   
         
-    },                        
+    },   
+    "historyHandler": {
+        "preHistoryPrompt": "string",  
+        "maxHistoryItems":"number"
+    },                  
     "inputPromptHandlers": [                      
         {
             "conditions": [                
@@ -222,8 +226,11 @@ sequenceDiagram
 {
         
     "templateName": "WPSAgent",                    
-    "aiModelName":"CHATGPT40",
-    "preHistoryPrompt": "Here is the interaction so far:",                          
+    "aiModelName":"CHATGPT40",       
+    "historyHandler": {
+        "preHistoryPrompt": "Here is the interaction so far:",  
+        "maxHistoryItems":5
+    },                      
     "inputPromptHandlers": [
         {                             
             "prompt": "You are a Medicare Customer Service Representative for WPS Health Solutions."

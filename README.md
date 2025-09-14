@@ -6,8 +6,8 @@
 sequenceDiagram
     Browser->>UI request: 
     UI request->>Backend App:
-    Backend App->>Role Configuration:
-    Role Configuration->>AI request:
+    Backend App->>Template Configuration:
+    Template Configuration->>AI request:
     AI request->>AI model:
     AI model->>Backend App:
     Backend App->>Browser:

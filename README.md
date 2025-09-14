@@ -221,6 +221,7 @@ sequenceDiagram
     ]
 }
 ```
+---
 
 ### WPS Medicare Template Configuration file: 
 ```json
@@ -300,8 +301,6 @@ sequenceDiagram
 
 }
 ```       
----
-
 ### WPS Medicare UI request 
 
 ```json
@@ -336,8 +335,6 @@ sequenceDiagram
     
 }
 ```
-
-
 ### WPS Medicare OpenAI request after going through the template configuration
 
 ```json
@@ -429,7 +426,6 @@ sequenceDiagram
     ]
 }
 ```       
----
 
 ### Apppointment Assistant UI request 
 
@@ -462,7 +458,6 @@ sequenceDiagram
 }
 ```
 
-
 ### Apppointment Assistant OpenAI request after going through the template configuration
 
 ```json
@@ -483,7 +478,5 @@ sequenceDiagram
     ]       
 }
 ```
----
-
 
 </div>

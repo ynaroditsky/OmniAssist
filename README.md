@@ -217,11 +217,12 @@ sequenceDiagram
     },
      "templates": [        
         "WPSAgent.json",
-        "PorscheAgent.json",
-        "DOD911.json"            
+        "AppointmentAssistance.json"
     ]
 }
 ```
+
+### WPS Medicare Template Configuration file: 
 ```json
 {
         
@@ -337,7 +338,7 @@ sequenceDiagram
 ```
 
 
-### WPS Medicare OpenAI request after going through the configuration
+### WPS Medicare OpenAI request after going through the template configuration
 
 ```json
 {
@@ -373,6 +374,111 @@ sequenceDiagram
         {
             "role": "user",
             "content": "Produce the response as a JSON object.\\n textContent attribute includes your regular text response.\\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\\n Wrap ssml content with <speak> tags.\\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \\n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\\n Don''t treat names or places as the alphanumeric values.\\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \\n Group the 5-digit alphanumeric location code into numeric and alphabetic parts. Use <say-as interpret-as=digits>  for the numeric part. For example B9997 should be B <say-as interpret-as=''digits''>9997</say-as> \\n For numeric strings longer than 4 digits, group them into 3-digit chunks, each with individual <say-as> tags and insert a comma after each chunk.\\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: two 3-digit chunks, 3 2-digit chunks, and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a comma after each. Insert a comma after each chunk, a period after the last chunk.\\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\\n Split long numbers on 4 digits groups. Put space between the groups. \\n For alphanumeric values put space after every letter and put space after every 4 digits.\\n Don''t wrap alphanumeric value with any ssml tags."
+        }
+    ]       
+}
+```
+---
+
+### Apppointment Assistant Template Configuration file: 
+```json
+{
+        
+    "templateName": "AppointmentAssistance",                    
+    "aiModelName":"CHATGPT40",       
+    "historyHandler": {
+        "preHistoryPrompt": "Here is the interaction so far:",  
+        "maxHistoryItems":3
+    },                      
+    "inputPromptHandlers": [
+        {                             
+            "prompt": "You are appointment assistant."
+        },
+        {                                                                 
+            "inputPrompts": [
+                {
+                    "key":"avalilableTimeBlocks",
+                    "base64Encoded": false,                    
+                    "failIfEmpty":true
+                },
+                {
+                    "key":"officeHours",
+                    "base64Encoded": false,
+                    "default":"{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"}]}",
+                    "failIfEmpty":false
+                }
+            ] ,                  
+            "prompt": "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {{avalilableTimeBlocks}}. These are the office hours {{officeHours}}. Return me 30 minutes available timeslots between startTime and endTime.",                 
+        },
+        {
+            "conditions": [
+                {
+                    "voiceFlag":"N"
+                }
+            ],                      
+            "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
+        },    
+        {
+            "conditions": [
+                {
+                    "voiceFlag":"Y"
+                }
+            ],                      
+            "prompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag."                 
+        }           
+    ]
+}
+```       
+---
+
+### Apppointment Assistant UI request 
+
+```json
+{
+    "templateName": "AppointmentAssistant",    
+    "inputPrompts": [
+        {
+            "key": "avalilableTimeBlocks",
+            "value": "{\"availableTimeSlots\":[{\"startTime\":\"2025-08-28T00:25:00-04:00\",\"endTime\":\"2025-08-29T23:59:59-04:00\"}]}"
+        },
+        {
+            "key": "officeHours",
+            "value": "{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Israel independence Day\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Day of Oktoberfest On TheSquare in Philadelphia\",\"startTime\":\"\",\"endTime\":\"\"}]}"
+        },
+        {
+            "key": "sequence",
+            "value": "S"
+        }
+        {
+            "key": "question",
+            "value": "How much do I own?"
+        },        
+        {
+            "key": "voiceFlag",
+            "value": "Y"
+        }       
+    ]
+    
+}
+```
+
+
+### Apppointment Assistant OpenAI request after going through the template configuration
+
+```json
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "You are appointment assistant."
+        },
+        {
+            "role": "user",
+            "content": "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {\"availableTimeSblocks\":[{\"startTime\":\"2025-08-28T00:25:00-04:00\",\"endTime\":\"2025-08-29T23:59:59-04:00\"}]}. These are the office hours{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Israel independence Day\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Day of Oktoberfest On TheSquare in Philadelphia\",\"startTime\":\"\",\"endTime\":\"\"}]}. Return me 30 minutes available timeslots between startTime and endTime."
+        },
+        {
+            "role": "user",
+            "content": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag."
         }
     ]       
 }

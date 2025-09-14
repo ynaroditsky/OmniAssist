@@ -50,9 +50,17 @@ sequenceDiagram
             }
         }
     ],
-    "attribute key":"attribute value",
-    "attribute key":"attribute value",
-    "attribute key":"attribute value",
+    "inputPrompts": [
+        {
+            "key":"value"
+        },
+        {
+            "key":"value"
+        },
+        {
+            "key":"value"
+        }
+    ]
 }
 ```
 
@@ -97,40 +105,71 @@ sequenceDiagram
         "matchesNum":"number"   
         
     },                        
-    "prompts": [                      
+    "inputPromptHandlers": [                      
         {
-            "conditions": [
-                {
-                    "always":"true|false",                    
+            "conditions": [                
+                 {
+                    "input prompt key":"input prompt value"
                 },
                 {
-                    "failOnEmptyAttribute":"true|false",                    
+                    "input prompt key":"input prompt value"
+                }
+            ],                                           
+            "ragFlag":"true|false",              
+          
+            "inputPrompts": [
+                {
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
                 },
                 {
-                    "attribute key":"attribute value"
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
                 },
                 {
-                    "attribute key":"attribute value"
-                },
-                {
-                    "attribute key":"attribute value"
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
                 }
             ],
-                               
-            "base64Encoded": true,
-            "ragFlag":"true|false",              
-            "prompt": "string {{attribute key}} string {{attribute key}} string {{attribute key}}",
-            "defaultValues": [
+            "prompt": "string {{attribute key}} string {{attribute key}} string {{attribute key}}"
+        },
+         {
+            "conditions": [                
                 {
-                    "attribute key":"attribute default value"
+                    "input prompt key":"input prompt value"
                 },
                 {
-                    "attribute key":"attribute default value"
-                },
-                {
-                    "attribute key":"attribute default value"
+                    "input prompt key":"input prompt value"
                 }
-            ]            
+            ],                                           
+            "ragFlag":"true|false",   
+            "inputPrompts": [
+                {
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
+                },
+                {
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
+                },
+                {
+                    "key":"string",
+                    "default":"string",
+                    "base64Encoded": "true|false",
+                    "failIfEmpty":"true|false"
+                }
+            ],
+            "prompt": "string {{input prompt key}} string {{input prompt key}} string {{input prompt key}}",            
         }
     ]      
     
@@ -185,17 +224,29 @@ sequenceDiagram
     "templateName": "WPSAgent",                    
     "aiModelName":"CHATGPT40",
     "preHistoryPrompt": "Here is the interaction so far:",                          
-    "prompts": [
-        {
-            "conditions": [
-                {
-                    "always":true,                    
-                }
-            ],                      
-            "prompt": "You are a Medicare Customer Service Representative for WPS Health Solutions.",                  
+    "inputPromptHandlers": [
+        {                             
+            "prompt": "You are a Medicare Customer Service Representative for WPS Health Solutions."
         },
         {                                                   
-            "base64Encoded": true,                 
+              
+            "inputPrompts": [
+                {
+                    "key":"claimData",
+                    "base64Encoded": true,
+                    "failIfEmpty":true
+                },
+                {
+                    "key":"referenceInfo",
+                    "base64Encoded": true,
+                    "failIfEmpty":true
+                },
+                {                   
+                    "key":"additionalInfo",
+                    "base64Encoded": true,
+                    "failIfEmpty":true
+                }
+            ]                      
             "prompt": "Here are the details of Medicare Claim Status: {{claimData}}.\nHere are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}\nAdditional info:{{additionalInfo}}",                 
         },
         {
@@ -210,13 +261,16 @@ sequenceDiagram
             "conditions": [
                 {
                     "sequence":"S"
-                },
-                {
-                    "failOnEmptyAttribute":true                    
                 }
-            ],                        
-            "prompt": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\" {{question}}",
-                    
+            ],     
+            "inputPrompts": [
+                {
+                    "key":"question",
+                    "default":"Am I a good patient?!",                                       
+                    "failIfEmpty":false
+                } 
+            ],                  
+            "prompt": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\"\n\n {{question}}",                                
         },
         {
             "conditions": [
@@ -237,7 +291,7 @@ sequenceDiagram
     ]
 
 }
-       
+```       
 ---
 
 ### WPS Medicare UI request 
@@ -245,7 +299,7 @@ sequenceDiagram
 ```json
 {
     "templateName": "WPSClaims",    
-    "dynamicAttributes": [
+    "inputPrompts": [
         {
             "key": "additionalInfo",
             "value": "TG9jYXRpb24gY29kZSBkZXNjcmlwdGlvbnM6ClAgQjk5OTYgUGF5bWVudCBmbG9vciAKUCBCOTk5NyBQYWlkL1Byb2Nlc3NlZCBjbGFpbSAKUCBCNzUwMSBQb3N0LXBheSByZXZpZXcgClAgQjc1MDUgUG9zdC1wYXkgcmV2aWV3IApSIEI5OTk3IENsYWltcyBwcm9jZXNzaW5nIHJlamVjdGlvbiAKRCBCOTk5NyBNZWRpY2FsIHJldmlldyBkZW5pYWwgClQgQjk5MDAgRGFpbHkgcmV0dXJuIHRvIHByb3ZpZGVyIChSVFApIGNsYWltIOKAkyBub3QgeWV0IGFjY2Vzc2libGUgClQgQjk5OTcgUlRQIGNsYWltIOKAkyBjbGFpbSBtYXkgYmUgYWNjZXNzZWQgYW5kIGNvcnJlY3RlZCB0aHJvdWdoIHRoZSBDbGFpbSBhbmQgQXR0YWNobWVudHMgQ29ycmVjdGlvbnMgTWVudSAoTWFpbiBtZW51IG9wdGlvbiAwMykgClMgQjAxMDAgQmVnaW5uaW5nIG9mIHRoZSBGSVNTIGJhdGNoIHByb2Nlc3MgClMgQjYwMDAgQ2xhaW1zIGF3YWl0aW5nIHRoZSBjcmVhdGlvbiBvZiBhbiBhZGRpdGlvbmFsIGRldmVsb3BtZW50IHJlcXVlc3QgKEFEUikgbGV0dGVyLiBEbyBub3QgcHJlc3MgW0Y5XSBvbiB0aGVzZSBjbGFpbXMgYmVjYXVzZSBGSVNTIHdpbGwgZ2VuZXJhdGUgYW5vdGhlciBBRFIuIApTIEI2MDAxIENsYWltcyBhd2FpdGluZyBhIHByb3ZpZGVy4oCZcyByZXNwb25zZSB0byBhbiBBRFIgbGV0dGVyIApTIEI2MDk5IENsYWltcyBhd2FpdGluZyBhIHByb3ZpZGVy4oCZcyByZXNwb25zZSB0byBhbiBBRFIgbGV0dGVyIApTIEI5MDAwIENsYWltcyByZWFkeSB0byBnbyB0byBhIGNvbW1vbiB3b3JraW5nIGZpbGUgKENXRikgaG9zdCBzaXRlIApTIEI5MDk5IENsYWltcyBhd2FpdGluZyBhIHJlc3BvbnNlIGZyb20gYSBDV0YgaG9zdCBzaXRlCg=="
@@ -269,7 +323,7 @@ sequenceDiagram
         {
             "key": "voiceFlag",
             "value": "Y"
-        },       
+        }       
     ]
     
 }

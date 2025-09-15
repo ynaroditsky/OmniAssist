@@ -223,14 +223,14 @@ sequenceDiagram
         ]
     },
      "templates": [        
-        "WPSAgent.json",
+        "MedicareClaimsAssstantAgent.json",
         "AppointmentAssistance.json"
     ]
 }
 ```
 ---
 
-### WPS Medicare Template Configuration file: 
+### Medicare Claims Assistan Template Configuration file: 
 ```json
 {
         
@@ -324,8 +324,7 @@ sequenceDiagram
             "useInRag":false,              
             "useInHistory":false,                  
             "prompt": [
-
-                "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ",
+                "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ",
                 "ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n ",
                 "Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml ",
                 "tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names ",
@@ -343,10 +342,9 @@ sequenceDiagram
             ]
         }           
     ]
-
 }
 ```       
-### WPS Medicare UI request 
+### Medicare Claims Assistant UI request 
 
 ```json
 {
@@ -386,7 +384,7 @@ sequenceDiagram
     
 }
 ```
-### WPS Medicare OpenAI request after going through the template configuration
+### Medicare Claims Assistant OpenAI request after going through the template configuration
 
 ```json
 {

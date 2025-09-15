@@ -119,8 +119,8 @@ sequenceDiagram
                     "input prompt key":"input prompt value"
                 }
             ],                                           
-            "ragFlag":"true|false",              
-          
+            "useInRag":"true|false",              
+            "useInHistory":"true|flag",
             "inputPrompts": [
                 {
                     "key":"string",
@@ -152,7 +152,8 @@ sequenceDiagram
                     "input prompt key":"input prompt value"
                 }
             ],                                           
-            "ragFlag":"true|false",   
+            "useInRag":"true|false",              
+            "useInHistory":"true|flag", 
             "inputPrompts": [
                 {
                     "key":"string",
@@ -183,7 +184,6 @@ sequenceDiagram
 ---
 
 ## Examples
-
 
 ### Configuration file: 
 
@@ -237,8 +237,9 @@ sequenceDiagram
         {                             
             "prompt": "You are a Medicare Customer Service Representative for WPS Health Solutions."
         },
-        {                                                   
-              
+        {                                                                 
+            "useInRag":false,              
+            "useInHistory":true, 
             "inputPrompts": [
                 {
                     "key":"claimData",
@@ -263,7 +264,9 @@ sequenceDiagram
                 {
                     "sequence":"I"
                 }
-            ],                   
+            ],         
+            "useInRag":false,              
+            "useInHistory":true,            
             "prompt": "Please give me a claim summary that is a few sentences in plain English that includes the DCN, the submitted date, the attending physician, the service date, the status and location 1 code and the location 1 code description. Please only provide the summary."        
         },
         {
@@ -271,7 +274,9 @@ sequenceDiagram
                 {
                     "sequence":"S"
                 }
-            ],     
+            ],    
+            "useInRag":false,              
+            "useInHistory":true,  
             "inputPrompts": [
                 {
                     "key":"question",
@@ -286,7 +291,9 @@ sequenceDiagram
                 {
                     "voiceFlag":"N"
                 }
-            ],                      
+            ],         
+            "useInRag":false,              
+            "useInHistory":false,                 
             "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
         },    
         {
@@ -294,7 +301,9 @@ sequenceDiagram
                 {
                     "voiceFlag":"Y"
                 }
-            ],                      
+            ],      
+            "useInRag":false,              
+            "useInHistory":false,                  
             "prompt": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags."                 
         }           
     ]
@@ -391,7 +400,9 @@ sequenceDiagram
         {                             
             "prompt": "You are appointment assistant."
         },
-        {                                                                 
+        {        
+            "useInRag":false,              
+            "useInHistory":true,                                                          
             "inputPrompts": [
                 {
                     "key":"avalilableTimeBlocks",
@@ -408,6 +419,8 @@ sequenceDiagram
             "prompt": "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {{avalilableTimeBlocks}}. These are the office hours {{officeHours}}. Return me 30 minutes available timeslots between startTime and endTime.",                 
         },
         {
+            "useInRag":false,              
+            "useInHistory":false, 
             "conditions": [
                 {
                     "voiceFlag":"N"
@@ -416,6 +429,8 @@ sequenceDiagram
             "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
         },    
         {
+            "useInRag":false,              
+            "useInHistory":false, 
             "conditions": [
                 {
                     "voiceFlag":"Y"

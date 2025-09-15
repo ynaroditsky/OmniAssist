@@ -52,13 +52,16 @@ sequenceDiagram
     ],
     "inputPrompts": [
         {
-            "key":"value"
+            "key":"value",
+            "base64Encoded": "true|false"
         },
         {
-            "key":"value"
+            "key":"value",
+            "base64Encoded": "true|false"
         },
         {
-            "key":"value"
+            "key":"value",
+            "base64Encoded": "true|false"
         }
     ]
 }
@@ -124,24 +127,26 @@ sequenceDiagram
             "inputPrompts": [
                 {
                     "key":"string",
-                    "default":"string",
-                    "base64Encoded": "true|false",
+                    "default":"string",                  
                     "failIfEmpty":"true|false"
                 },
                 {
                     "key":"string",
                     "default":"string",
-                    "base64Encoded": "true|false",
                     "failIfEmpty":"true|false"
                 },
                 {
                     "key":"string",
-                    "default":"string",
-                    "base64Encoded": "true|false",
+                    "default":"string",                    
                     "failIfEmpty":"true|false"
                 }
             ],
-            "prompt": "string {{attribute key}} string {{attribute key}} string {{attribute key}}"
+            "prompt": [
+                "string",
+                "string {{attribute key}}",
+                "string {{attribute key}} string {{attribute key}}",
+                "string"
+            ]   
         },
          {
             "conditions": [                
@@ -157,24 +162,26 @@ sequenceDiagram
             "inputPrompts": [
                 {
                     "key":"string",
-                    "default":"string",
-                    "base64Encoded": "true|false",
+                    "default":"string",                 
                     "failIfEmpty":"true|false"
                 },
                 {
                     "key":"string",
-                    "default":"string",
-                    "base64Encoded": "true|false",
+                    "default":"string",                    
                     "failIfEmpty":"true|false"
                 },
                 {
                     "key":"string",
-                    "default":"string",
-                    "base64Encoded": "true|false",
+                    "default":"string",                    
                     "failIfEmpty":"true|false"
                 }
             ],
-            "prompt": "string {{input prompt key}} string {{input prompt key}} string {{input prompt key}}",            
+            "prompt": [
+                "string",
+                "string {{attribute key}}",
+                "string {{attribute key}} string {{attribute key}}",
+                "string"
+            ]            
         }
     ]      
     
@@ -242,22 +249,23 @@ sequenceDiagram
             "useInHistory":true, 
             "inputPrompts": [
                 {
-                    "key":"claimData",
-                    "base64Encoded": true,
+                    "key":"claimData",                    
                     "failIfEmpty":true
                 },
                 {
-                    "key":"referenceInfo",
-                    "base64Encoded": true,
+                    "key":"referenceInfo",                    
                     "failIfEmpty":true
                 },
                 {                   
-                    "key":"additionalInfo",
-                    "base64Encoded": true,
+                    "key":"additionalInfo",                    
                     "failIfEmpty":true
                 }
             ]                      
-            "prompt": "Here are the details of Medicare Claim Status: {{claimData}}.\nHere are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}\nAdditional info:{{additionalInfo}}",                 
+            "prompt": [
+                "Here are the details of Medicare Claim Status: {{claimData}}.\n",
+                "Here are the additional reference information of the Medicare Claim data mentioned above:{{referenceInfo}}\n",
+                "Additional info:{{additionalInfo}}"
+            ]                 
         },
         {
             "conditions": [
@@ -267,7 +275,11 @@ sequenceDiagram
             ],         
             "useInRag":false,              
             "useInHistory":true,            
-            "prompt": "Please give me a claim summary that is a few sentences in plain English that includes the DCN, the submitted date, the attending physician, the service date, the status and location 1 code and the location 1 code description. Please only provide the summary."        
+            "prompt": [
+                "Please give me a claim summary that is a few sentences in plain English that includes the DCN, the submitted date, ",
+                "the attending physician, the service date, the status and location 1 code and the location 1 code description. ",
+                "Please only provide the summary."        
+            ]
         },
         {
             "conditions": [
@@ -284,7 +296,12 @@ sequenceDiagram
                     "failIfEmpty":false
                 } 
             ],                  
-            "prompt": "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",if the question asks for an operator or agent, only respond \"!!AGENT!!\"\n\n {{question}}",                                
+            "prompt": [
+                "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. ",
+                "If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", ",
+                "if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",",
+                "if the question asks for an operator or agent, only respond \"!!AGENT!!\"\n\n {{question}}",                                
+            ]
         },
         {
             "conditions": [
@@ -294,7 +311,9 @@ sequenceDiagram
             ],         
             "useInRag":false,              
             "useInHistory":false,                 
-            "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
+            "prompt": [
+                "Produce the response as a JSON object. textContent attribute includes your regular text response."
+            ]                  
         },    
         {
             "conditions": [
@@ -304,7 +323,24 @@ sequenceDiagram
             ],      
             "useInRag":false,              
             "useInHistory":false,                  
-            "prompt": "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual <say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with <say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags."                 
+            "prompt": [
+
+                "voiceResponseFormatPrompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ",
+                "ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n ",
+                "Wrap dates and years with <say-as interpret-as=''date''> ssml tag. \n Wrap money amounts with <say-as interpret-as=''currency''> ssml ",
+                "tag and with a dollar sign $ before the amount value.\n Wrap  phone numbers with <say-as interpret-as=''telephone''>\n Don''t treat names ",
+                "or places as the alphanumeric values.\n Remove all dots and dashes from the alphanumeric diagnostic codes. For example remove the dots from ",
+                "codes like F90.9, F43.10, F31.9 \n When a sentence includes mixed alphanumeric identifiers (like check numbers such as 'EFT12345678'), split ",
+                "letters and digits using <say-as> tags so they are spoken clearly. Use interpret-as=characters' for letters and interpret-as=''digits'' for ",
+                "numbers. Insert a brief <break time=''50ms''/> between letters and digits to improve clarity.\n If the alphanumeric string is a Medicare claim ",
+                "Document Control Number (DCN): Group into: four 3-digit chunks and the remaining characters in the final chunk. Wrap each chunk with individual ",
+                "<say-as interpret-as=''digits''>,  but if the chunk contains letters,  use individual <say-as interpret-as=''characters''> for each character, ",
+                "insert a 50ms break tag after each. Insert a comma after each chunk, a period after the last chunk.\n Avoid putting the entire string into a ",
+                "single <say-as interpret-as=''characters''>.\n Wrap numbers, that are neither dates nor years nor part of the alphanumeric value with ",
+                "<say-as interpret-as=''digits''> ssml tag.\n When a number appears in part of a sentence, use say-as cardinal tags. For example 120 days.\n ",
+                "Split long numbers on 4 digits groups. Put space between the groups. \n For alphanumeric values put space after every letter and put space after ",
+                "every 4 digits.\n Don''t wrap alphanumeric value with any ssml tags."                 
+            ]
         }           
     ]
 
@@ -318,27 +354,33 @@ sequenceDiagram
     "inputPrompts": [
         {
             "key": "additionalInfo",
-            "value": "TG9jYXRpb24gY29kZSBkZXNjcmlwdGlvbnM6ClAgQjk5OTYgUGF5bWVudCBmbG9vciAKUCBCOTk5NyBQYWlkL1Byb2Nlc3NlZCBjbGFpbSAKUCBCNzUwMSBQb3N0LXBheSByZXZpZXcgClAgQjc1MDUgUG9zdC1wYXkgcmV2aWV3IApSIEI5OTk3IENsYWltcyBwcm9jZXNzaW5nIHJlamVjdGlvbiAKRCBCOTk5NyBNZWRpY2FsIHJldmlldyBkZW5pYWwgClQgQjk5MDAgRGFpbHkgcmV0dXJuIHRvIHByb3ZpZGVyIChSVFApIGNsYWltIOKAkyBub3QgeWV0IGFjY2Vzc2libGUgClQgQjk5OTcgUlRQIGNsYWltIOKAkyBjbGFpbSBtYXkgYmUgYWNjZXNzZWQgYW5kIGNvcnJlY3RlZCB0aHJvdWdoIHRoZSBDbGFpbSBhbmQgQXR0YWNobWVudHMgQ29ycmVjdGlvbnMgTWVudSAoTWFpbiBtZW51IG9wdGlvbiAwMykgClMgQjAxMDAgQmVnaW5uaW5nIG9mIHRoZSBGSVNTIGJhdGNoIHByb2Nlc3MgClMgQjYwMDAgQ2xhaW1zIGF3YWl0aW5nIHRoZSBjcmVhdGlvbiBvZiBhbiBhZGRpdGlvbmFsIGRldmVsb3BtZW50IHJlcXVlc3QgKEFEUikgbGV0dGVyLiBEbyBub3QgcHJlc3MgW0Y5XSBvbiB0aGVzZSBjbGFpbXMgYmVjYXVzZSBGSVNTIHdpbGwgZ2VuZXJhdGUgYW5vdGhlciBBRFIuIApTIEI2MDAxIENsYWltcyBhd2FpdGluZyBhIHByb3ZpZGVy4oCZcyByZXNwb25zZSB0byBhbiBBRFIgbGV0dGVyIApTIEI2MDk5IENsYWltcyBhd2FpdGluZyBhIHByb3ZpZGVy4oCZcyByZXNwb25zZSB0byBhbiBBRFIgbGV0dGVyIApTIEI5MDAwIENsYWltcyByZWFkeSB0byBnbyB0byBhIGNvbW1vbiB3b3JraW5nIGZpbGUgKENXRikgaG9zdCBzaXRlIApTIEI5MDk5IENsYWltcyBhd2FpdGluZyBhIHJlc3BvbnNlIGZyb20gYSBDV0YgaG9zdCBzaXRlCg=="
+            "value": "TG9jYXRpb24gY29kZSBkZXNjcmlwdGlvbnM6ClAgQjk5OTYgUGF5bWVudCBmbG9vciAKUCBCOTk5NyBQYWlkL1Byb2Nl.....",
+            "base64Encoded": true
         },
         {
             "key": "referenceInfo",
-            "value": "PENsYWltSW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5DbGFpbSBSZWFzb24gQ29kZTwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPjM3MjA1PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5hIHByZXZpb3VzbHkgcHJvY2Vzc2VkIGJpbGwgaGFzIGJlZW4gYWRqdXN0ZWQ8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U3ViamVjdCB0byBQYXJ0IEIgRGVkdWN0aWJsZTwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPjcyLjk8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPjx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5Ub3RhbCBCaWxsZWQgVW5pdHM8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT4xPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+Q2FuY2VsIERhdGU8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT4xLzIyLzIwMjU8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPjx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5DYXJyaWVyIENvZGU8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT41MzAyPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+Q2hlY2sgTnVtYmVyPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+RUZUNjk3NjU1NTwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkRlbmlhbCBMZXR0ZXIgQ29kZXM8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT4zOTkyOTwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkFOU0kgUmVhc29uIENvZGVzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+QW1lcmljYW4gTmF0aW9uYWwgU3RhbmRhcmRzIEluc3RpdHV0ZSBSZWFzb24gQ29kZXM8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5NQTAxPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5BTEVSVDogSUYgWU9VIERPIE5PVCBBR1JFRSBXSVRIIFdIQVQgV0UgQVBQUk9WRUQgRk9SIFRIRVNFIFNFUlZJQ0VTLCBZT1UgTUFZIEFQUEVBTCBPVVIgREVDSVNJT04uICBUTyBNQUtFIFNVUkUgVEhBVCBXRSBBUkUgRkFJUiBUTyBZT1UsIFdFIFJFUVVJUkUgQU5PVEhFUiBJTkRJVklEVUFMIFRIQVQgRElEIE5PVCBQUk9DRVNTIFlPVVIgSU5JVElBTCBDTEFJTSBUTyBDT05EVUNUIFRIRSBBUFBFQUwuICBIT1dFVkVSLCBJTiBPUkRFUiBUTyBCRSBFTElHSUJMRSBGT1IgQU4gQVBQRUFMLCBZT1UgTVVTVCBXUklURSBUTyBVUyBXSVRISU4gMTIwIERBWVMgT0YgVEhFIERBVEUgWU9VIFJFQ0VJVkVEIFRISVMgTk9USUNFPHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkFOU0kgUmVtYXJrIENvZGU8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj5BbWVyaWNhbiBOYXRpb25hbCBTdGFuZGFyZHMgSW5zdGl0dXRlIFJlbWFyayBDb2RlczwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPk40MzU8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPjx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5SZW1hcmtzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5DT1JSRUNURUQgQ0xBSU0tOTk0ODcgQ0hBTkdFRCBUTyBHMDUxMTx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5NU1A8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj5NZWRpY2FyZSBTZWNvbmRhcnkgUGF5ZXI8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5ZZXM8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPk1lZGljYXJlIGlzIHRoZSBzZWNvbmRhcnkgcGF5ZXI8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U05GPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+U2tpbGxlZCBOdXJzaW5nIEZhY2lsaXR5PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+Tm88L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPlBhdGllbnQgbm90IGluIGEgU2tpbGxlZCBOdXJzaW5nIEZhY2lsaXR5PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkxvY2F0aW9uIDI8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5COTk5NjwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PlN0YXR1czwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPlA8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPlBheW1lbnQgZmxvb3I8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+TG9jYXRpb24gMzwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPkI5MDk5PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U3RhdHVzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+UzwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+Q2xhaW1zIGF3YWl0aW5nIGEgcmVzcG9uc2UgZnJvbSBhIENXRiBob3N0IHNpdGU8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+TG9jYXRpb24gNDwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPkI5MDAwPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U3RhdHVzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+UzwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+Q2xhaW1zIHJlYWR5IHRvIGdvIHRvIGEgY29tbW9uIHdvcmtpbmcgZmlsZSAoQ1dGKSBob3N0IHNpdGU8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+TG9jYXRpb24gNTwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPkIwMTAwPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U3RhdHVzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+UzwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+QmVnaW5uaW5nIG9mIHRoZSBGSVNTIGJhdGNoIHByb2Nlc3M8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+TG9jYXRpb24gNjwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPk1TUFJBPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz48dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+U3RhdHVzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+UzwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+Q2xhaW0gaXMgYmVpbmcgcHJvY2Vzc2VkIHVuZGVyIE1lZGljYXJlIFNlY29uZGFyeSBQYXllciAoTVNQKSBydWxlczx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5Mb2NhdGlvbiA3PC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+QjAxMDA8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPjx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5TdGF0dXM8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5TPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5jbGFpbSBhZGp1c3RtZW50IGhhcyBiZWVuIHN1Ym1pdHRlZCB0byBjaGFuZ2UgYSBub24tY292ZXJlZCBjbGFpbSB0byBhIGNvdmVyZWQgY2xhaW0sIGJ1dCB0aGUgYXBwcm9wcmlhdGUgY2xhaW0gY2hhbmdlIGNvbmRpdGlvbiBjb2RlIChzdWNoIGFzIEQxKSB3YXMgbm90IGJpbGxlZDx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5BdHRlbmRpbmcgUGh5c2ljaWFuPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+RGVuaXNlIEZvc3RlcjwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PlNwZWNpYWx0eSBDb2RlPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+OTc8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPjx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5UYXhvbm9teSBDb2RlPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+MjYxUVIxMzAwWDwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+PHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDI8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5GNDE5PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5BbnhpZXR5IERpc29yZGVyLCB1bnNwZWNpZmllZDx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5EaWFnbm9zaXMgQ29kZSAzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KCQk8dmFsdWU+RjMxOTwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+Qmlwb2xhciBEaXNvcmRlciwgdW5zcGVjaWZpZWQ8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+RGlhZ25vc2lzIENvZGUgNDwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPlo2ODI4PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5Cb2R5IE1hc3MgSW5kZXggKEJNSSkgb2YgMjguMC0yOC45IGZvciBhZHVsdHM8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+RGlhZ25vc2lzIENvZGUgNTwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPksyMTk8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPkdhc3Ryby1lc29waGFnZWFsIHJlZmx1eCBkaXNlYXNlIChHRVJEKSB3aXRob3V0IGVzb3BoYWdpdGlzPHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDY8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5JMTA8L3ZhbHVlPgoJCTx2YWx1ZV9tZWFuaW5nPkVzc2VudGlhbCAocHJpbWFyeSkgaHlwZXJ0ZW5zaW9uPHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDc8L2NhdGVnb3J5PgoJCTxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT5GNDMxMDwvdmFsdWU+CgkJPHZhbHVlX21lYW5pbmc+UG9zdC1UcmF1bWF0aWMgU3RyZXNzIERpc29yZGVyIChQVFNEKSwgdW5zcGVjaWZpZWQ8dmFsdWVfbWVhbmluZy8+Cgk8L2luZm8+Cgk8aW5mbz4KCQk8Y2F0ZWdvcnk+RGlhZ25vc2lzIENvZGUgODwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CgkJPHZhbHVlPkUxMTY1PC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz5UeXBlIDIgZGlhYmV0ZXMgbWVsbGl0dXMgd2l0aCBoeXBlcmdseWNlbWlhPHZhbHVlX21lYW5pbmcvPgoJPC9pbmZvPgoJPGluZm8+CgkJPGNhdGVnb3J5PkgyNjYzPC9jYXRlZ29yeT4KCQk8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+Q09WRU5UUlkgSEVBTFRIIENBUkUgT0YgTUlTU09VUkksIElOQy48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgoJCTx2YWx1ZT4xMjg1IEZlcm5yaWRnZSBQYXJrd2F5LCBTdWl0ZSAyMDAgU3QuIExvdWlzIE1PIDYzMTQxPC92YWx1ZT4KCQk8dmFsdWVfbWVhbmluZz4xLTgwMC01MzMtMDM2Nzx2YWx1ZV9tZWFuaW5nLz4KCTwvaW5mbz4KPC9DbGFpbUluZm8+"
+            "value": "PENsYWltSW5mbz4KCTxpbmZvPgoJCTxjYXRlZ29yeT5DbGFpbSBSZWFzb24gQ29kZTwvY2F0ZWdvcnk+CgkJPGNhdGVnb3J5X2R....",
+            "base64Encoded": true
         },
         {
             "key": "sequence",
-            "value": "S"
+            "value": "S",
+            "base64Encoded": false
         },
         {
             "key": "claimData",
-            "value": "PENsYWltSW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5OUEk8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPk5hdGlvbmFsIFByb3ZpZGVyIElkZW50aWZpZXI8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjE1ODEzNDQ4OTk8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+PC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5QVEFOPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5Qcm92aWRlciBUcmFuc2FjdGlvbiBBY2Nlc3MgTnVtYmVyPC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5aNTE4NDk4PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+VGF4IElEPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5UYXggSUQ8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjU2MTAwPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+TUJJPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5NZWRpY2FyZSBCZW5lZmljaWFyeSBJZGVudGlmaWVyPC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5aRFU5U0wzSVNRMDwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkJlbmVmaWNpYXJ5IE5hbWU8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+SmFuZSBTbWl0aDwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRPQjwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+RGF0ZSBvZiBCaXJ0aDwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+MS8xNS8xOTYwPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+RE9TPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5EYXRlIG9mIFNlcnZpY2U8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjkvNS8yMDI0PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+UmVjZWlwdCBEYXRlPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjEvMTAvMjAyNTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkJlbmVmaWNpYXJ5IExpYWJsZSBJbmRpY2F0b3I8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+TjwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkFOU0kgUmVhc29uIENvZGVzPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5BbWVyaWNhbiBOYXRpb25hbCBTdGFuZGFyZHMgSW5zdGl0dXRlIFJlYXNvbiBDb2RlczwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+TUEwMTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz5BTEVSVDogSUYgWU9VIERPIE5PVCBBR1JFRSBXSVRIIFdIQVQgV0UgQVBQUk9WRUQgRk9SIFRIRVNFIFNFUlZJQ0VTICBZT1UgTUFZIEFQUEVBTCBPVVIgREVDSVNJT04uICBUTyBNQUtFIFNVUkUgVEhBVCBXRSBBUkUgRkFJUiBUTyBZT1UgIFdFIFJFUVVJUkUgQU5PVEhFUiBJTkRJVklEVUFMIFRIQVQgRElEIE5PVCBQUk9DRVNTIFlPVVIgSU5JVElBTCBDTEFJTSBUTyBDT05EVUNUIFRIRSBBUFBFQUwuICBIT1dFVkVSICBJTiBPUkRFUiBUTyBCRSBFTElHSUJMRSBGT1IgQU4gQVBQRUFMICBZT1UgTVVTVCBXUklURSBUTyBVUyBXSVRISU4gMTIwIERBWVMgT0YgVEhFIERBVEUgWU9VIFJFQ0VJVkVEIFRISVMgTk9USUNFPC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5BTlNJIFJlbWFyayBDb2RlPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj5BbWVyaWNhbiBOYXRpb25hbCBTdGFuZGFyZHMgSW5zdGl0dXRlIFJlbWFyayBDb2RlczwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+TjQzNTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkF0dGVuZGluZyBQaHlzaWNpYW48L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+RGVuaXNlIEZvc3RlcjwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlNwZWNpYWx0eSBDb2RlPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjk3PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+TG9jYXRpb24gMTwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5COTk5NzwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlN0YXR1czwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5SPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPlByb2Nlc3NpbmcgQ2xhaW0gUmVqZWN0aW9uPC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5Mb2NhdGlvbiAyPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPkI5MDk5PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+U3RhdHVzPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPlM8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+Q2xhaW1zIGF3YWl0aW5nIGEgcmVzcG9uc2UgZnJvbSBhIENXRiBob3N0IHNpdGU8L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkxvY2F0aW9uIDM8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+QjkwMDA8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+PC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5TdGF0dXM8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+UzwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz5DbGFpbXMgcmVhZHkgdG8gZ28gdG8gYSBjb21tb24gd29ya2luZyBmaWxlIChDV0YpIGhvc3Qgc2l0ZTwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+TG9jYXRpb24gNDwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5CMDEwMDwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlN0YXR1czwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5TPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPkJlZ2lubmluZyBvZiB0aGUgRklTUyBiYXRjaCBwcm9jZXNzPC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5EZW5pYWwgTGV0dGVyIENvZGVzPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjM5OTI5PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+QmlsbCBUeXBlPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjcxMDwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlRvdGFsIEJpbGxlZCBVbml0czwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT4xPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+U3VibWl0dGVkIENoYXJnZXM8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+MjQ4PC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+QWxsb3dlZCBDaGFyZ2VzPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjA8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+PC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5Ob24tQ292ZXJlZCBDaGFyZ2VzPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjI0ODwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRDTjwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+RG9jdW1lbnQgQ29udHJvbCBOdW1iZXI8L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjIyNTg1NDQ0MjE4N01PQTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkNhbmNlbCBEYXRlPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPjEvMjIvMjAyNTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkNhcnJpZXIgQ29kZTwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT41MzAyPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPjwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+Q2hlY2sgTnVtYmVyPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPkVGVDY5NzY1NTU8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+PC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5DbGFpbSBMb2NhdGlvbjwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5COTk5NzwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlN0YXR1czwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5SPC92YWx1ZT4KICAgIDx2YWx1ZV9tZWFuaW5nPlByb2Nlc3NpbmcgQ2xhaW0gUmVqZWN0aW9uPC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5EaWFnbm9zaXMgQ29kZSAxPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPkY5MDk8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+YXR0ZW50aW9uLWRlZmljaXQgaHlwZXJhY3Rpdml0eSAoYWRvbGVzY2VudCkgKGFkdWx0KSAoY2hpbGQpPC92YWx1ZV9tZWFuaW5nPgogIDwvaW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5EaWFnbm9zaXMgQ29kZSAyPC9jYXRlZ29yeT4KICAgIDxjYXRlZ29yeV9kZXNjcmlwdGlvbj48L2NhdGVnb3J5X2Rlc2NyaXB0aW9uPgogICAgPHZhbHVlPkY0MTk8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+QW54aWV0eSBEaXNvcmRlciAgdW5zcGVjaWZpZWQ8L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDM8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+RjMxOTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz5CaXBvbGFyIERpc29yZGVyICB1bnNwZWNpZmllZDwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+RGlhZ25vc2lzIENvZGUgNDwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5aNjgyODwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz5Cb2R5IE1hc3MgSW5kZXggKEJNSSkgb2YgMjguMC0yOC45IGZvciBhZHVsdHM8L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDU8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+SzIxOTwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz5HYXN0cm8tZXNvcGhhZ2VhbCByZWZsdXggZGlzZWFzZSAoR0VSRCkgd2l0aG91dCBlc29waGFnaXRpczwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+RGlhZ25vc2lzIENvZGUgNjwvY2F0ZWdvcnk+CiAgICA8Y2F0ZWdvcnlfZGVzY3JpcHRpb24+PC9jYXRlZ29yeV9kZXNjcmlwdGlvbj4KICAgIDx2YWx1ZT5JMTA8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+RXNzZW50aWFsIChwcmltYXJ5KSBoeXBlcnRlbnNpb248L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDc8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+RjQzMTA8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+UG9zdC1UcmF1bWF0aWMgU3RyZXNzIERpc29yZGVyIChQVFNEKSAgdW5zcGVjaWZpZWQ8L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkRpYWdub3NpcyBDb2RlIDg8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+RTExNjU8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+VHlwZSAyIGRpYWJldGVzIG1lbGxpdHVzIHdpdGggaHlwZXJnbHljZW1pYTwvdmFsdWVfbWVhbmluZz4KICA8L2luZm8+CiAgPGluZm8+CiAgICA8Y2F0ZWdvcnk+Q2xhaW0gUmVhc29uIENvZGU8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+Mzk5Mjk8L3ZhbHVlPgogICAgPHZhbHVlX21lYW5pbmc+VEhJUyBJUyBBIENMQUlNIExFVkVMIFJFQVNPTiBDT0RFIEZPUiBDTEFJTVMgVEhBVCBIQVZFIEFMTCBMSU5FIElURU1TIFJFSkVDVEVEIEFORC9PUiBSRUpFQ1RFRCBBTkQgREVOSUVELiAqIENIRUNLIExJTkUgTEVWRUwgVE8gREVURVJNSU5FIFdIWSBMSU5FUyBXRVJFIERFTklFRCBBTkQgV0hPIElTIExJQUJMRS48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PkF0dGVuZGluZyBQaHlzaWNpYW48L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+RGVuaXNlIEZvc3RlcjwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgogIDxpbmZvPgogICAgPGNhdGVnb3J5PlRheG9ub215IENvZGU8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9uPjwvY2F0ZWdvcnlfZGVzY3JpcHRpb24+CiAgICA8dmFsdWU+MjYxUVIxMzAwWDwvdmFsdWU+CiAgICA8dmFsdWVfbWVhbmluZz48L3ZhbHVlX21lYW5pbmc+CiAgPC9pbmZvPgo8L0NsYWltSW5mbz4="
+            "value":"PENsYWltSW5mbz4KICA8aW5mbz4KICAgIDxjYXRlZ29yeT5OUEk8L2NhdGVnb3J5PgogICAgPGNhdGVnb3J5X2Rlc2NyaXB0aW9......",
+            "base64Encoded": true
         },
         {
             "key": "question",
-            "value": "How much do I own?"
+            "value": "How much do I own?",
+            "base64Encoded": false
         },        
         {
             "key": "voiceFlag",
-            "value": "Y"
+            "value": "Y",
+            "base64Encoded": false
         }       
     ]
     
@@ -405,18 +447,19 @@ sequenceDiagram
             "useInHistory":true,                                                          
             "inputPrompts": [
                 {
-                    "key":"avalilableTimeBlocks",
-                    "base64Encoded": false,                    
+                    "key":"avalilableTimeBlocks",                                    
                     "failIfEmpty":true
                 },
                 {
-                    "key":"officeHours",
-                    "base64Encoded": false,
+                    "key":"officeHours",                    
                     "default":"{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"}]}",
                     "failIfEmpty":false
                 }
             ] ,                  
-            "prompt": "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {{avalilableTimeBlocks}}. These are the office hours {{officeHours}}. Return me 30 minutes available timeslots between startTime and endTime.",                 
+            "prompt": [
+                "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {{avalilableTimeBlocks}}. ",
+                "These are the office hours {{officeHours}}. Return me 30 minutes available timeslots between startTime and endTime."
+            ]                 
         },
         {
             "useInRag":false,              
@@ -426,7 +469,9 @@ sequenceDiagram
                     "voiceFlag":"N"
                 }
             ],                      
-            "prompt": "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
+            "prompt": [
+                "Produce the response as a JSON object. textContent attribute includes your regular text response."                  
+            ]
         },    
         {
             "useInRag":false,              
@@ -436,7 +481,10 @@ sequenceDiagram
                     "voiceFlag":"Y"
                 }
             ],                      
-            "prompt": "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag."                 
+            "prompt": [
+                "Produce the response as a JSON object.\n textContent attribute includes your regular text response.\n ssmlContent attribute includes version of the ", 
+                "response in ssml format. Use AWS SSML standard.\n Wrap ssml content with <speak> tags.\n Wrap dates and years with <say-as interpret-as=''date''> ssml tag."                 
+            ]
         }           
     ]
 }
@@ -454,19 +502,23 @@ sequenceDiagram
         },
         {
             "key": "officeHours",
-            "value": "{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Israel independence Day\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Day of Oktoberfest On TheSquare in Philadelphia\",\"startTime\":\"\",\"endTime\":\"\"}]}"
+            "value": "{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Israel independence Day\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Day of Oktoberfest On TheSquare in Philadelphia\",\"startTime\":\"\",\"endTime\":\"\"}]}",
+            "base64Encoded": false
         },
         {
             "key": "sequence",
-            "value": "S"
+            "value": "S",
+            "base64Encoded": false
         }
         {
             "key": "question",
             "value": "How much do I own?"
+            "base64Encoded": false
         },        
         {
             "key": "voiceFlag",
-            "value": "Y"
+            "value": "Y",
+            "base64Encoded": false
         }       
     ]
     

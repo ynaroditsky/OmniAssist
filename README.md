@@ -705,7 +705,7 @@ sequenceDiagram
         }
         {
             "key": "question",
-            "value": "How much do I own?"
+            "value": "Find 30 minutes appoitment for me in Friday"
             "base64Encoded": false
         },        
         {

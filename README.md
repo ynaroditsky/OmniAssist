@@ -259,6 +259,8 @@ sequenceDiagram
     },
     "inputPromptHandlers": [
         {
+            "useInRag": false,
+            "useInHistory": false,
             "outputPrompt": [
                 "You are a Medicare Customer Service Representative for WPS Health Solutions."
             ]
@@ -271,7 +273,7 @@ sequenceDiagram
                 }
             ],
             "useInRag": false,
-            "useInHistory": true,
+            "useInHistory": false,
             "inputPrompts": [
                 {
                     "key": "claimData",
@@ -333,9 +335,9 @@ sequenceDiagram
             ],
             "outputPrompt": [
                 "Please answer the following in full sentences without using bulleted lists or parentheses only using the information given above. ",
-                "If the information is not explicitly given above, please only respond  \"!!UNKNOWN!!\" if the question asks for next claim, only respond \"!!NEXT!!\", ",
-                "if the question asks for previous claim, only respond \"!!PREV!!\", if the the person indicates they are done, only respond \"!!DONE!!\",",
-                "if the question asks for an operator or agent, only respond \"!!AGENT!!\"\n\n {{question}}",
+                "If the information is not explicitly given above, please only respond  '!!UNKNOWN!!' if the question asks for next claim, only respond '!!NEXT!!', ",
+                "if the question asks for previous claim, only respond '!!PREV!!', if the the person indicates they are done, only respond '!!DONE!!',",
+                "if the question asks for an operator or agent, only respond '!!AGENT!!'\n\n {{question}}"
             ]
         },
         {
@@ -432,140 +434,140 @@ sequenceDiagram
 ### Rapid Assistant Template Configuration file: 
 ```json
 {
-        
-    "templateName": "RapidAssistantAgent",                    
-    "aiModelName":"CHATGPT40",       
+    "templateName": "RapidAssistantAgent",
+    "aiModelName": "CHATGPT40",
     "historyHandler": {
-        "preHistoryPrompt": "Here is the interaction so far:",  
-        "maxHistoryItems":5
-    },                      
+        "preHistoryPrompt": "Here is the interaction so far:",
+        "maxHistoryItems": 5
+    },
     "inputPromptHandlers": [
-        {                             
+        {
+            "useInRag": false,
+            "useInHistory": false,
             "outputPrompt": [
-				"You are a Customer Service Representative for an alarm monitoring company.\n",
-				"Your primary role is to assist users by providing information about their alarm monitoring system and any recent alarm activity, using only the provided data."
-			]
+                "You are a Customer Service Representative for an alarm monitoring company.\n",
+                "Your primary role is to assist users by providing information about their alarm monitoring system and any recent alarm activity, using only the provided data."
+            ]
         },
-        {              
-			"conditions": [
+        {
+            "conditions": [
                 {
-                    "key":"voiceFlag",
-					"value":"N"
+                    "key": "voiceFlag",
+                    "value": "N"
                 }
-            ], 		
-            "useInRag":false,              
-            "useInHistory":true, 
+            ],
+            "useInRag": false,
+            "useInHistory": false,
             "inputPrompts": [
                 {
-                    "key":"claimData",                    
-                    "failIfEmpty":true
+                    "key": "claimData",
+                    "failIfEmpty": true
                 },
                 {
-                    "key":"referenceInfo",                    
-                    "failIfEmpty":true
+                    "key": "referenceInfo",
+                    "failIfEmpty": true
                 },
-                {                   
-                    "key":"additionalInfo",                    
-                    "failIfEmpty":true
+                {
+                    "key": "additionalInfo",
+                    "failIfEmpty": true
                 }
-            ],                      
+            ],
             "outputPrompt": [
                 "Here are the details of recent alarms for their system: {{claimData}}.\n",
                 "Here are the details of their system::{{referenceInfo}}\n",
                 "Here is information about the alarm types: {{additionalInfo}}"
-            ]                 
+            ]
         },
         {
             "conditions": [
                 {
-                    "key":"sequence",
-					"value":"I"
+                    "key": "sequence",
+                    "value": "I"
                 },
-				 {
-                    "key":"voiceFlag",
-					"value":"N"
+                {
+                    "key": "voiceFlag",
+                    "value": "N"
                 }
-            ],         
-            "useInRag":false,              
-            "useInHistory":true,            
+            ],
+            "useInRag": false,
+            "useInHistory": true,
             "outputPrompt": [
                 "Provide an alarm summary, respond in a brief paragraph (2-4 sentences) using plain, easy-to-understand language.",
-				"Only include: the type of alarm, the address it was received from, the time it was received. If the date of an alarm is within the last 6 months, do not present the year.\n",
-				"Format addresses as '<Street> in <City>,<State>'. \n",
-				"Group alarms together if they are from the same address. Do not use: bulleted lists, parentheses, information not explicitly provided in the data.",
+                "Only include: the type of alarm, the address it was received from, the time it was received. If the date of an alarm is within the last 6 months, do not present the year.\n",
+                "Format addresses as '<Street> in <City>,<State>'. \n",
+                "Group alarms together if they are from the same address. Do not use: bulleted lists, parentheses, information not explicitly provided in the data.",
                 "the attending physician, the service date, the status and location 1 code and the location 1 code description. ",
-                "Please only provide the summary."        
+                "Please only provide the summary."
             ]
         },
         {
             "conditions": [
                 {
-                    "key":"sequence",
-					"value":"S"
+                    "key": "sequence",
+                    "value": "S"
                 },
-				 {
-                    "key":"voiceFlag",
-					"value":"N"
+                {
+                    "key": "voiceFlag",
+                    "value": "N"
                 }
-            ],    
-            "useInRag":false,              
-            "useInHistory":true,  
+            ],
+            "useInRag": false,
+            "useInHistory": true,
             "inputPrompts": [
                 {
-                    "key":"question",
-                    "default":"Am I a good patient?!",                                       
-                    "failIfEmpty":false
-                } 
-            ],                  
+                    "key": "question",                    
+                    "failIfEmpty": true
+                }
+            ],
             "outputPrompt": [
                 "For any follow-up question, respond using complete sentences and only with information found in the provided data.\n",
-				"When presenting alarm(s) information to the user, give the event code description, and alarm date; do not include other fields like ServType or EventCode.\n",
-				"If the date of an alarm is within the last 6 months, do not present the year. Format addresses as '<Street> in <City>,<State>'.\n",
-				"If the question includes information not found in the Alarm Data, System Info, or Additional Info only respond: '!!UNKNOWN!!'.  \n", 
-				"If the question includes a request about an operator or agent only respond: '!!AGENT!!'. Do not fabricate, infer, or assume additional details. \n",
-				"Stick strictly to the provided content. If the user indicates that they do not require anymore assistance by entering 'No', 'That's All' or something similar, respond only with '!!DONE!!'".
-                               
+                "When presenting alarm(s) information to the user, give the event code description, and alarm date; do not include other fields like ServType or EventCode.\n",
+                "If the date of an alarm is within the last 6 months, do not present the year. Format addresses as '<Street> in <City>,<State>'.\n",
+                "If the question includes information not found in the Alarm Data, System Info, or Additional Info only respond: '!!UNKNOWN!!'.  \n",
+                "If the question includes a request about an operator or agent only respond: '!!AGENT!!'. Do not fabricate, infer, or assume additional details. \n",
+                "Stick strictly to the provided content. If the user indicates that they do not require anymore assistance by entering 'No', 'That's All' or something similar, respond only with '!!DONE!!'\n",
+                "{{question}}\n"
             ]
         },
         {
             "conditions": [
                 {
-                    "key":"voiceFlag",
-					"value":"N"
+                    "key": "voiceFlag",
+                    "value": "N"
                 }
-            ],         
-            "useInRag":false,              
-            "useInHistory":false,                 
+            ],
+            "useInRag": false,
+            "useInHistory": false,
             "outputPrompt": [
                 "Produce the response as a JSON object. textContent attribute includes your regular text response."
-            ]                  
-        },    
+            ]
+        },
         {
             "conditions": [
                 {
-                    "key":"voiceFlag",
-					"value":"Y"
+                    "key": "voiceFlag",
+                    "value": "Y"
                 }
-            ],      
-			"inputPrompts": [
+            ],
+            "inputPrompts": [
                 {
-                    "key":"text",                    
-                    "failIfEmpty":true
-                } 
-            ],  
-            "useInRag":false,              
-            "useInHistory":false,                  
+                    "key": "text",
+                    "failIfEmpty": true
+                }
+            ],
+            "useInRag": false,
+            "useInHistory": false,
             "outputPrompt": [
                 "{{text}}\n",
                 "Produce the response as a JSON object.\n textContent attribute includes the text provided above.\n ssmlContent attribute includes text provided above converted to ssml format. Use AWS SSML standard.\n ",
-				"Wrap ssml content with <speak> tags.\n When providing the summary, when the year part is the current year always generate SSML using <say-as interpret-as=''date'' format=''md''>MM-DD</say-as> ", 
-				"and output all responses without the year in natural language (e.g., ''July 10th''). Wrap dates and years with <say-as interpret-as=''date''> ssml tag only when the year part is not the current year.\n ",
-				"Wrap phone numbers using <say-as interpret-as='digits'> tags. Format all standard phone numbers using a 3-3-2-2 digit grouping, inserting a 50ms pause (<break time='50ms'/>) after each group.\n",
-				"For toll-free numbers starting with 800, override the spoken output of the prefix with '800' followed by a 50ms pause, then process the remaining digits ",
-				"using a 3-2-2 grouping within <say-as interpret-as='digits'> tags, inserting a 50ms pause between groups.\n Don''t treat names or places as the alphanumeric values.\n ",
-				"Do not wrap natural language numbers (like days, ages, or quantities such as ''120 days'') in <say-as> tags.\n Always generate well-formed SSML inside a <speak> tag."                 
+                "Wrap ssml content with <speak> tags.\n When providing the summary, when the year part is the current year always generate SSML using <say-as interpret-as=''date'' format=''md''>MM-DD</say-as> ",
+                "and output all responses without the year in natural language (e.g., ''July 10th''). Wrap dates and years with <say-as interpret-as=''date''> ssml tag only when the year part is not the current year.\n ",
+                "Wrap phone numbers using <say-as interpret-as='digits'> tags. Format all standard phone numbers using a 3-3-2-2 digit grouping, inserting a 50ms pause (<break time='50ms'/>) after each group.\n",
+                "For toll-free numbers starting with 800, override the spoken output of the prefix with '800' followed by a 50ms pause, then process the remaining digits ",
+                "using a 3-2-2 grouping within <say-as interpret-as='digits'> tags, inserting a 50ms pause between groups.\n Don''t treat names or places as the alphanumeric values.\n ",
+                "Do not wrap natural language numbers (like days, ages, or quantities such as ''120 days'') in <say-as> tags.\n Always generate well-formed SSML inside a <speak> tag."
             ]
-        }           
+        }
     ]
 }
 ```       
@@ -622,6 +624,8 @@ sequenceDiagram
     },
     "inputPromptHandlers": [
         {
+            "useInRag": false,
+            "useInHistory": false,
             "outputPrompt": [
                 "You are appointment assistant."
             ]
@@ -642,13 +646,15 @@ sequenceDiagram
                 },
                 {
                     "key": "officeHours",
-                    "default": "{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00-04:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"}]}",
-                    "failIfEmpty": false
+                    "default": "{\"officeHours\":[{\"day\":\"Monday\",\"startTime\":\"09:00:00\",\"endTime\":\"17:00:00\"},{\"day\":\"Tuesday\",\"startTime\":\"09:00:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Wednesday\",\"startTime\":\"09:00:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Thursday\",\"startTime\":\"09:00:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Friday\",\"startTime\":\"09:00:00\",\"endTime\":\"17:00:00-04:00\"},{\"day\":\"Weekend\",\"startTime\":\"\",\"endTime\":\"\"},{\"day\":\"Federal holiday\",\"startTime\":\"\",\"endTime\":\"\"}]}",
+                    "failIfEmpty": true
                 }
             ],
             "outputPrompt": [
-                "You need to schedule a 30 minutes doctor appointment.These are the available time blocks {{avalilableTimeBlocks}}. ",
-                "These are the office hours {{officeHours}}. Return me 30 minutes available timeslots between startTime and endTime."
+                "You need to schedule a 30 minutes doctor appointment.\n",
+                "These are the available time blocks {{avalilableTimeBlocks}}. \n",
+                "These are the office hours {{officeHours}}. \n",
+                "Return me 10 30 minutes available timeslots between available startTime and endTime"
             ]
         },
         {
@@ -661,7 +667,7 @@ sequenceDiagram
             "useInRag": false,
             "useInHistory": false,
             "outputPrompt": [
-                "Produce the response as a JSON object. textContent attribute includes your regular text response."
+                "Produce the response as a JSON object. textContent attribute includes the timeslots array converted to string"
             ]
         },
         {
@@ -705,7 +711,7 @@ sequenceDiagram
         }
         {
             "key": "question",
-            "value": "Find 30 minutes appoitment for me in Friday"
+            "value": "Find 30 minutes appoitment for me in Friday",
             "base64Encoded": false
         },        
         {

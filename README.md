@@ -76,7 +76,8 @@ sequenceDiagram
 {
     "generalConfiguration": {
         "dbConnectString": "string",                    
-        "contentFolder": "string",                      
+        "contentFolder": "string",     
+
         "aiModels":[
             {
                 "aiModelName":"string",                   
@@ -86,15 +87,11 @@ sequenceDiagram
                 "completionModel":"string",             
                 "completionEndPoint":"string",          
                 "authenticationToken":"string",
-                "temperature":"string"
+                "temperature":"string",
+                "defaultModel":"true|false"
             }
         ]
-    },
-    "templates": [        
-        "string"
-        "string",
-        "string"            
-    ]
+    }
 }
 ```
 
